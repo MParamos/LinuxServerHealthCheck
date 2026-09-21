@@ -1,0 +1,34 @@
+services:
+  linuxserverhealthcheck_db:
+    image: mariadb:10.11
+    container_name: linuxserverhealthcheck_db_${MACHINE_NAME:-Server}
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret123}
+      MARIADB_DATABASE: healthcheck
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "127.0.0.1:33060:3306"
+
+  linuxserverhealthcheck:
+    build: .
+    container_name: linuxserverhealthcheck_${MACHINE_NAME:-Server}
+    privileged: true
+    pid: "host"
+    network_mode: "host"
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/etc/healthcheck.conf:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /dev:/dev:ro
+      - /sys:/sys:ro
+      - /var/log:/var/log/host:ro
+      - /:/host:ro # Allows auditing of the host base system
+    restart: unless-stopped
+    depends_on:
+      - linuxserverhealthcheck_db

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" >🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" class="active">📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" >ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" >⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Requisitos de los Módulos</div>
+                <div class="lang-switcher">
+                    <a href="../es/dependencies.html" class="active">ES</a>
+<a href="../en/dependencies.html" >EN</a>
+<a href="../fr/dependencies.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>Requisitos de los Módulos</h1><p>Para mantener la imagen Docker lo más ligera posible, el sistema utiliza <strong>Resolución Dinámica de Dependencias</strong>.</p><p>Si un módulo necesita un comando específico (como <code>nmap</code>, <code>smartmontools</code> o <code>lm-sensors</code>), simplemente incluye un archivo llamado <code>packages.txt</code> en su raíz, listando los paquetes APT línea por línea.</p><p>Durante el <code>docker compose build</code>, el Dockerfile leerá <code>ModulesInReport.conf</code>, iterará sobre los módulos activos, concatenará sus archivos <code>packages.txt</code>, e instalará exactamente y únicamente lo necesario.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

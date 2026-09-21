@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" >🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" >📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" >ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" class="active">⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Aviso Legal</div>
+                <div class="lang-switcher">
+                    <a href="../es/legal.html" class="active">ES</a>
+<a href="../en/legal.html" >EN</a>
+<a href="../fr/legal.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+<h1>Aviso Legal y Privacidad</h1>
+<p>Este sitio web es puramente informativo, de naturaleza técnica y de código abierto. Al no constituir una actividad comercial, no aplica la obligación de registro mercantil según la normativa española (LSSI-CE).</p>
+<h2>1. Privacidad y Rastreo</h2>
+<p>Fieles a la filosofía de privacidad absoluta del proyecto LSHC, este sitio web <strong>no utiliza cookies</strong>, no emplea píxeles de seguimiento, no almacena direcciones IP en bases de datos externas y utiliza tipografías locales del sistema. Este sitio se ha diseñado bajo el principio de máxima privacidad para el usuario.</p>
+<h2>2. Contacto y Datos</h2>
+<p>Cualquier comunicación dirigida al correo de contacto será tratada con estricta confidencialidad. Las direcciones de correo electrónico no se cederán a terceros ni se utilizarán para envíos comerciales (Spam). Solo se usarán para dar respuesta a la consulta planteada.</p>
+<h2>3. Propiedad Intelectual</h2>
+<p>El código, el diseño y la documentación se distribuyen bajo la licencia <strong>GPL 3</strong>, asegurando que el software permanezca libre y de código abierto.</p>
+            
+<h2>4. Exención de Responsabilidad</h2>
+<p>LinuxServerHealthCheck se proporciona "tal cual" (AS IS), sin garantías de ningún tipo, expresas o implícitas. Aunque el software está diseñado como una herramienta de monitorización preventiva, su uso no garantiza la seguridad absoluta del sistema ni la invulnerabilidad frente a ataques cibernéticos. El autor no se hará responsable bajo ninguna circunstancia de daños directos, indirectos, pérdida de datos, interrupciones de servicio o brechas de seguridad (hackeos) que pudieran derivarse del uso, configuración o incapacidad de uso de esta herramienta. La seguridad de la infraestructura y la mitigación de las alertas recaen exclusivamente en el administrador del sistema que lo implementa.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

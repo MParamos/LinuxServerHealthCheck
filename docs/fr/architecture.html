@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Accueil (Aperçu)</a>
+<a href="audience.html" >🎯 Cas d'Utilisation et Prérequis</a>
+<a href="quickstart.html" >⚡ Guide de Démarrage Rapide</a>
+<a href="architecture.html" class="active">🧩 Architecture Technique</a>
+<a href="toggle.html" >⚙️ Activation des Modules</a>
+<a href="dependencies.html" >📦 Dépendances des Modules</a>
+<a href="development.html" >🛠️ Développement de Modules</a>
+<a href="troubleshooting.html" >🐛 Dépannage</a>
+<a href="about.html" >ℹ️ À propos (Licence)</a>
+<a href="contact.html" >✉️ Contact</a>
+<a href="legal.html" >⚖️ Mentions Légales</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Architecture Technique</div>
+                <div class="lang-switcher">
+                    <a href="../es/architecture.html" >ES</a>
+<a href="../en/architecture.html" >EN</a>
+<a href="../fr/architecture.html" class="active">FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>Architecture Technique</h1>
+<p>La philosophie centrale de LSHC est le <strong>découplage absolu et l'immuabilité</strong>. Ci-dessous se trouve une analyse du cycle de vie du système, conçue pour les programmeurs et les administrateurs système souhaitant auditer ou étendre le framework.</p>
+
+<h2>1. Cycle de Vie d'Exécution</h2>
+<p>L'orchestrateur principal (<code>AssemblyScript.sh</code>) ne possède aucune logique de surveillance intrinsèque. Il agit comme un pipeline aveugle qui délègue le travail aux modules vérifiés.</p>
+
+<pre class="mermaid">
+graph TD
+    A[Démon Cron / Exécution Manuelle] -->|Appelle| B[AssemblyScript.sh]
+    B --> E((Boucle : Itère sur les<br>Modules Actifs et Inactifs))
+    E --> F{check_module_integrity.sh}
+    
+    F -- Invalide / Corrompu --> H[Injecte HTML d'Erreur]
+    F -- Valide --> G[(Sous-shell Isolé)]
+    
+    G -->|Module absent dans ModulesInReport.conf| I[Désactivation du module, et exécution de prune.sh pour effacer ses tables de base de données]
+    G -->|Module présent dans ModulesInReport.conf| J[Exécute module.sh]
+    
+    J --> K[Expose les Variables HTML du Module]
+    K --> L[Injecte template.html du Module]
+    L --> M[Ajoute au Corps du Rapport]
+    
+    H --> M
+    I -.-> E
+    M -.-> E
+    
+    M --> N[Charge le Modèle HTML de Pied de Page]
+    N --> O[Chiffrement et Envoi via SMTP Mailx]
+</pre>
+
+<h2>2. Isolation de la Mémoire (Sous-shells)</h2>
+<p>Le plus grand risque dans les scripts Bash modulaires est la collision de variables. LSHC prévient cela en encapsulant l'exécution de chaque module dans un environnement enfant :</p>
+<pre><code># Extrait de AssemblyScript.sh
+( 
+    source "src/modules/$module/module.sh" 
+    envsubst < "src/modules/$module/template.html" 
+) >> "$REPORT_BODY"
+</code></pre>
+<p>En utilisant des parenthèses <code>( ... )</code>, un fork du processus bash est créé. Toute variable déclarée ou modifiée dans <code>module.sh</code> est détruite à la fin du bloc, gardant la mémoire de l'orchestrateur vierge.</p>
+
+<h2>3. Résolution Dynamique à la Compilation (Build-Time)</h2>
+<p>Afin d'éviter les images Docker surchargées, le Dockerfile inclut un analyseur de dépendances intelligent. Il installe strictement et uniquement les commandes requises par les modules actifs.</p>
+
+<pre class="mermaid">
+sequenceDiagram
+    participant D as Dockerfile
+    participant C as ModulesInReport.conf
+    participant M as src/modules/*/packages.txt
+    participant A as APT (apt-get)
+    
+    D->>C: Lit la liste des modules non commentés
+    C-->>D: Ex. performance, security_audit
+    D->>M: Concatène et déduplique les paquets des modules actifs
+    M-->>D: Ex. lm-sensors, hdparm, nmap
+    D->>A: apt-get install -y [paquets]
+</pre>
+
+<div class="alert alert-warning"><strong>⚠️ Persistance des Bibliothèques :</strong> L'image Docker étant immuable, si vous désactivez un module, les bibliothèques qu'il a installées persisteront dans l'image actuelle du conteneur. Pour les purger définitivement, la meilleure pratique absolue est de reconstruire une image propre en exécutant <code>docker compose build --no-cache</code>.</div>
+
+<h2>4. Confidentialité et Base de Données Locale Air-Gapped</h2>
+<p>Afin d'assurer une confidentialité absolue de l'infrastructure, LSHC utilise un conteneur MariaDB dédié (<code>linuxserverhealthcheck_db</code>) qui <strong>n'expose aucun port externe</strong> au réseau hôte. Les modules stockent leurs métriques historiques directement ici, et se purgent cycliquement via leur <code>prune.sh</code> (ou effacent complètement lorsqu'ils sont désactivés). Aucune métrique ne quitte jamais le serveur hôte.</p>
+
+<h2>5. Bonnes Pratiques de Suppression (Graceful Deletion)</h2>
+<p>Si vous souhaitez supprimer définitivement le dossier d'un module, <strong>ne le supprimez pas brusquement</strong>. Cela empêcherait le script <code>sync_modules.sh</code> de trouver et d'exécuter le fichier <code>cleanup.sql</code> du module, laissant des tables historiques orphelines occupant un espace inutile dans la base de données interne.</p>
+<p><strong>Le flux architectural correct pour une suppression complète est le suivant :</strong></p>
+<ol>
+<li>Commentez ou supprimez le nom du module dans le fichier <code>ModulesInReport.conf</code>.</li>
+<li>Exécutez un rapport manuel (ex. <code>./RunManualHealthCheck.sh</code>). L'orchestrateur détectera la désactivation du module et déclenchera la destruction de ses tables dans la BD locale.</li>
+<li>Supprimez physiquement le dossier du module dans <code>src/modules/</code>.</li>
+<li>Exécutez <code>docker compose build --no-cache && docker compose up -d</code> pour recréer le conteneur principal sans les dépendances APT du module supprimé.</li>
+</ol>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) sous la licence <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Ce site web de documentation LSHC n'utilise pas de cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Mentions Légales</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Accueil (Aperçu)</a>
+<a href="audience.html" >🎯 Cas d'Utilisation et Prérequis</a>
+<a href="quickstart.html" >⚡ Guide de Démarrage Rapide</a>
+<a href="architecture.html" >🧩 Architecture Technique</a>
+<a href="toggle.html" >⚙️ Activation des Modules</a>
+<a href="dependencies.html" >📦 Dépendances des Modules</a>
+<a href="development.html" >🛠️ Développement de Modules</a>
+<a href="troubleshooting.html" class="active">🐛 Dépannage</a>
+<a href="about.html" >ℹ️ À propos (Licence)</a>
+<a href="contact.html" >✉️ Contact</a>
+<a href="legal.html" >⚖️ Mentions Légales</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Dépannage</div>
+                <div class="lang-switcher">
+                    <a href="../es/troubleshooting.html" >ES</a>
+<a href="../en/troubleshooting.html" >EN</a>
+<a href="../fr/troubleshooting.html" class="active">FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>Dépannage</h1><ul><li><strong>L'envoi d'e-mail échoue :</strong> Vérifiez votre fichier <code>.env</code> et assurez-vous que le port SMTP (généralement 587 ou 465) et les identifiants sont corrects. Assurez-vous d'avoir accès aux "Applications moins sécurisées" ou aux mots de passe d'application si vous utilisez Gmail.</li><li><strong>Module Corrompu :</strong> Si vous voyez une alerte HTML rouge dans le rapport indiquant une corruption, vérifiez que le module contient les fichiers obligatoires et que sa syntaxe bash est correcte.</li><li><strong>Autorisations Docker :</strong> Le conteneur doit fonctionner en mode <code>privileged</code> avec un mappage de volume hôte (<code>/</code> vers <code>/host</code>) pour auditer le système de base.</li></ul>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) sous la licence <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Ce site web de documentation LSHC n'utilise pas de cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Mentions Légales</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" class="active">🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" >📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" >ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" >⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Arquitectura Técnica</div>
+                <div class="lang-switcher">
+                    <a href="../es/architecture.html" class="active">ES</a>
+<a href="../en/architecture.html" >EN</a>
+<a href="../fr/architecture.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>Arquitectura Técnica</h1>
+<p>La filosofía central de LSHC es el <strong>desacoplamiento absoluto y la inmutabilidad</strong>. A continuación se desglosa el ciclo de vida del sistema, ideal para programadores y administradores de sistemas que deseen auditar o expandir el framework.</p>
+
+<h2>1. Ciclo de Vida de Ejecución</h2>
+<p>El orquestador principal (<code>AssemblyScript.sh</code>) no posee lógica de monitorización intrínseca. Se comporta como un <em>pipeline</em> ciego que delega el trabajo a los módulos verificados.</p>
+
+<pre class="mermaid">
+graph TD
+    A[Demonio Cron / Ejecución Manual] -->|Llama a| B[AssemblyScript.sh]
+    B --> E((Bucle: Itera sobre<br>Módulos Activos e Inactivos))
+    E --> F{check_module_integrity.sh}
+    
+    F -- Inválido / Corrupto --> H[Inyecta HTML de Error]
+    F -- Válido --> G[(Subshell Aislado)]
+    
+    G -->|Módulo ausente en ModulesInReport.conf| I[Desactivación del módulo, y ejecución de prune.sh para borrar sus tablas de la base de datos interna]
+    G -->|Módulo presente en ModulesInReport.conf| J[Ejecuta module.sh]
+    
+    J --> K[Expone Variables HTML del Módulo]
+    K --> L[Inyecta template.html del Módulo]
+    L --> M[Añade al Cuerpo del Informe]
+    
+    H --> M
+    I -.-> E
+    M -.-> E
+    
+    M --> N[Carga Plantilla HTML Footer]
+    N --> O[Cifrado y Envío por SMTP Mailx]
+</pre>
+
+<h2>2. Aislamiento de Memoria (Subshells)</h2>
+<p>El mayor riesgo en los scripts Bash modulares es la colisión de variables. LSHC previene esto encapsulando la ejecución de cada módulo en un entorno hijo:</p>
+<pre><code># Fragmento de AssemblyScript.sh
+( 
+    source "src/modules/$module/module.sh" 
+    envsubst < "src/modules/$module/template.html" 
+) >> "$REPORT_BODY"
+</code></pre>
+<p>Al utilizar paréntesis <code>( ... )</code>, se crea un <em>fork</em> del proceso de bash. Cualquier variable de entorno declarada o mutada dentro de <code>module.sh</code> se destruye automáticamente al terminar el bloque, manteniendo el espacio de memoria del orquestador completamente virgen.</p>
+
+<h2>3. Resolución Dinámica en Tiempo de Construcción (Build-Time)</h2>
+<p>Para evitar imágenes Docker pesadas, el Dockerfile incluye un analizador de dependencias inteligente. Solo se instalan en el sistema base los comandos estrictamente requeridos por los módulos activos.</p>
+
+<pre class="mermaid">
+sequenceDiagram
+    participant D as Dockerfile
+    participant C as ModulesInReport.conf
+    participant M as src/modules/*/packages.txt
+    participant A as APT (apt-get)
+    
+    D->>C: Lee la lista de módulos no comentados
+    C-->>D: Ej: performance, security_audit
+    D->>M: Concatena y deduplica los paquetes de los módulos activos
+    M-->>D: Ej: lm-sensors, hdparm, nmap
+    D->>A: apt-get install -y [paquetes]
+</pre>
+
+<div class="alert alert-warning"><strong>⚠️ Persistencia de Librerías:</strong> Dado que la imagen Docker es inmutable, si desactivas un módulo, las librerías que instaló seguirán existiendo dentro de la imagen actual del contenedor. Para purgarlas definitivamente, la única y mejor práctica es reconstruir la imagen limpia ejecutando <code>docker compose build --no-cache</code>.</div>
+
+<h2>4. Privacidad y Base de Datos Local Air-Gapped</h2>
+<p>Para garantizar la privacidad absoluta de la infraestructura, LSHC utiliza un contenedor dedicado de MariaDB (<code>linuxserverhealthcheck_db</code>) que <strong>no expone puertos al exterior</strong> de la red de Docker. Los módulos almacenan su histórico métrico directamente aquí, y se purgan a sí mismos cíclicamente mediante su <code>prune.sh</code> (o se eliminan permanentemente si el módulo es desactivado). Ninguna métrica abandona jamás el servidor anfitrión.</p>
+
+<h2>5. Buenas Prácticas de Borrado (Graceful Deletion)</h2>
+<p>Si deseas eliminar la carpeta de un módulo permanentemente, <strong>no la borres de forma directa y brusca</strong>. Hacerlo impedirá que el script <code>sync_modules.sh</code> encuentre y ejecute el archivo <code>cleanup.sql</code> del módulo, dejando sus tablas históricas huérfanas en la base de datos interna ocupando espacio inútilmente.</p>
+<p><strong>El flujo arquitectónico correcto para el borrado total es:</strong></p>
+<ol>
+<li>Comenta o elimina el nombre del módulo en el archivo <code>ModulesInReport.conf</code>.</li>
+<li>Ejecuta un informe manual (ej. <code>./RunManualHealthCheck.sh</code>). El orquestador detectará la baja del módulo y ejecutará la purga y destrucción de sus tablas en la BD local.</li>
+<li>Elimina la carpeta del módulo físicamente en <code>src/modules/</code>.</li>
+<li>Ejecuta <code>docker compose build --no-cache && docker compose up -d</code> para recrear el contenedor principal sin las dependencias APT del módulo eliminado.</li>
+</ol>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

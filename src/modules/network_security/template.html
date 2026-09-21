@@ -1,0 +1,17 @@
+<!-- =======================================================================
+  @file      template.html
+  @brief     HTML presentation template for the Network Security module.
+  @author Miguel Páramos (www.miguelparamos.com)
+======================================================================== -->
+<div class="module-container">
+    <h3 class="module-title">${L_NETWORK_SEC}</h3>
+    <p><strong>Puertos TCP/UDP a la escucha:</strong><br>
+    <div style="background:#1e293b; padding:10px; border-radius:8px; font-family:monospace; margin-top:5px;">
+        ${PORTS_HTML}
+    </div></p>
+    <div style="margin-top:15px; padding:15px; background:#1e293b; border-left:4px solid #0ea5e9; border-radius:4px;">
+        <p style="margin:0 0 10px 0;"><strong>Accesos SSH (Autenticaciones)</strong></p>
+        ${SSH_FAILS_HTML}
+        ${SSH_SUCCESS_HTML}
+    </div>
+</div>

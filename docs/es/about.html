@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" >🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" >📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" class="active">ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" >⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Acerca de (Licencia)</div>
+                <div class="lang-switcher">
+                    <a href="../es/about.html" class="active">ES</a>
+<a href="../en/about.html" >EN</a>
+<a href="../fr/about.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+<h1>Acerca de</h1><p><strong>Autor:</strong> Miguel Páramos<br><strong>Web:</strong> <a href="https://www.miguelparamos.com" target="_blank" style="color:#0ea5e9;">www.miguelparamos.com</a></p>
+<p>Diseñado con pasión por la arquitectura limpia, la seguridad en servidores y la automatización inteligente. Todo el código se distribuye de programador a programador, promoviendo el conocimiento libre y las buenas prácticas. Software creado con esmero en España 🇪🇸 para el mundo 🌍.</p>
+<p>🤖 <strong>Desarrollo asistido por IA:</strong> Este framework ha sido construido realizando <em>pair-programming</em> intensivo con Inteligencia Artificial, combinando experiencia humana con las herramientas más avanzadas para lograr un código modular, moderno y eficiente.</p>
+<h2>Licencia</h2><p>Este proyecto se distribuye bajo la Licencia <strong>GPL 3</strong>. Eres libre de usarlo, estudiarlo, compartirlo y modificarlo siempre que cualquier trabajo derivado también se distribuya bajo esta misma licencia, manteniendo el código abierto para todos.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

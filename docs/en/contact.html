@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Home (Overview)</a>
+<a href="audience.html" >🎯 Use Cases & Requirements</a>
+<a href="quickstart.html" >⚡ Quick Start Guide</a>
+<a href="architecture.html" >🧩 Technical Architecture</a>
+<a href="toggle.html" >⚙️ Module Toggle</a>
+<a href="dependencies.html" >📦 Module Dependencies</a>
+<a href="development.html" >🛠️ Module Development</a>
+<a href="troubleshooting.html" >🐛 Troubleshooting</a>
+<a href="about.html" >ℹ️ About (License)</a>
+<a href="contact.html" class="active">✉️ Contact</a>
+<a href="legal.html" >⚖️ Legal Notice</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Contact</div>
+                <div class="lang-switcher">
+                    <a href="../es/contact.html" >ES</a>
+<a href="../en/contact.html" class="active">EN</a>
+<a href="../fr/contact.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>Contact</h1><p>For inquiries, improvements, or expert consulting, reach out directly at: <a href="mailto:hola@miguelparamos.com" class="btn">hola@miguelparamos.com</a></p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a> license<br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">This LSHC documentation website does not use cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Legal Notice</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

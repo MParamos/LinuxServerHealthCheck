@@ -1,0 +1,351 @@
+
+:root {
+    --bg-dark: #0f172a;
+    --bg-sidebar: #1e293b;
+    --text-main: #cbd5e1;
+    --text-muted: #94a3b8;
+    --accent: #0ea5e9;
+    --accent-hover: #38bdf8;
+    --danger: #ff3366;
+    --warning: #ffcc00;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 50;
+}
+
+.logo {
+    padding: 30px 20px;
+    border-bottom: 1px solid #334155;
+}
+
+.logo h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #fff;
+    font-weight: 800;
+}
+
+.logo h2 span {
+    color: var(--accent);
+}
+
+.logo p {
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.mobile-menu-btn {
+    display: none; /* Hidden on desktop */
+}
+
+nav {
+    padding: 20px 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+nav a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+nav a:hover, nav a.active {
+    background-color: rgba(14, 165, 233, 0.1);
+    color: #fff;
+    border-left-color: var(--accent);
+}
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 280px;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+header {
+    height: 70px;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: rgba(15, 23, 42, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.breadcrumbs {
+    font-weight: 600;
+    color: #fff;
+}
+
+.lang-switcher a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 15px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #334155;
+    transition: 0.2s;
+}
+
+.lang-switcher a:hover, .lang-switcher a.active {
+    color: #fff;
+    border-color: var(--accent);
+    background: rgba(14, 165, 233, 0.1);
+}
+
+.content-body {
+    padding: 40px;
+    max-width: 800px;
+    line-height: 1.7;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #fff;
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: var(--accent);
+    margin-top: 40px;
+    font-size: 20px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 10px;
+}
+
+code {
+    background: #1e293b;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #38bdf8;
+    word-break: break-word;
+}
+
+pre {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    color: #cbd5e1;
+    word-break: normal;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px 0;
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    background: rgba(255, 204, 0, 0.1);
+    border-color: var(--warning);
+    color: #fff;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: var(--accent-hover);
+}
+
+.site-footer {
+    background: var(--bg-sidebar);
+    border-top: 1px solid #334155;
+    padding: 12px 40px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.site-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.site-footer a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Mobile Hamburger Menu)
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #334155;
+        z-index: 60;
+    }
+
+    .logo {
+        padding: 15px 20px;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid #334155;
+        color: var(--text-main);
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 6px;
+        padding: 6px 12px;
+        transition: 0.2s;
+    }
+
+    .mobile-menu-btn:hover, .mobile-menu-btn:active {
+        background: rgba(14, 165, 233, 0.1);
+        color: var(--accent);
+        border-color: var(--accent);
+    }
+
+    /* Hamburger hidden dropdown menu */
+    nav {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-sidebar);
+        border-bottom: 1px solid #334155;
+        box-shadow: 0 15px 25px -5px rgba(0,0,0,0.5);
+        padding: 0;
+        max-height: 70vh;
+    }
+
+    nav.open {
+        display: flex; /* Shown when toggled */
+    }
+
+    nav a {
+        padding: 15px 20px;
+        border-left: 4px solid transparent;
+        border-bottom: 1px solid #334155;
+        font-size: 15px;
+    }
+
+    nav a:hover, nav a.active {
+        border-left-color: var(--accent);
+    }
+
+    .main-wrapper {
+        margin-left: 0;
+    }
+
+    header {
+        padding: 15px 20px;
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        position: static;
+    }
+
+    .lang-switcher {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .lang-switcher a {
+        margin-left: 0;
+    }
+
+    .content-body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+
+    .site-footer {
+        position: static;
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+
+    pre.mermaid {
+        overflow-x: auto;
+        max-width: 100vw;
+    }
+}

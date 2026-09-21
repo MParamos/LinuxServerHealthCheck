@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" class="active">🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" >🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" >📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" >ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" >⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Inicio (Overview)</div>
+                <div class="lang-switcher">
+                    <a href="../es/index.html" class="active">ES</a>
+<a href="../en/index.html" >EN</a>
+<a href="../fr/index.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+                <h1>LinuxServerHealthCheck</h1>
+<p>Bienvenido a la documentación oficial de <strong>LinuxServerHealthCheck</strong>. Este framework es un sistema de monitorización preventiva de servidores Linux, diseñado con una arquitectura modular extrema y aislado completamente mediante contenedores Docker.</p>
+<h2>Visión General</h2>
+<p>El sistema recopila métricas de rendimiento (CPU, RAM, GPU, Discos), analiza vulnerabilidades a través de Lynis, audita inicios de sesión SSH y vigila el estado de tus contenedores Docker y servicios de Systemd. Todo ello se agrupa y formatea en un elegante correo electrónico HTML que se envía periódicamente mediante un demonio cron interno.</p>
+<h2>Privacidad Absoluta y Base de Datos Local</h2>
+<p>A diferencia de soluciones SaaS o agentes de terceros, LSHC garantiza el <strong>100% de la Soberanía del Dato</strong>. No se envía telemetría ni métricas a servidores externos. Toda la información histórica se guarda en una base de datos local aislada dentro de un contenedor. Los datos nacen, se procesan y mueren en tu servidor, asegurando privacidad total y cumplimiento normativo.</p>
+<p>Explora el menú lateral para aprender a utilizar, configurar y expandir el sistema.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

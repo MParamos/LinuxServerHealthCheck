@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Home (Overview)</a>
+<a href="audience.html" >🎯 Use Cases & Requirements</a>
+<a href="quickstart.html" >⚡ Quick Start Guide</a>
+<a href="architecture.html" >🧩 Technical Architecture</a>
+<a href="toggle.html" >⚙️ Module Toggle</a>
+<a href="dependencies.html" >📦 Module Dependencies</a>
+<a href="development.html" >🛠️ Module Development</a>
+<a href="troubleshooting.html" >🐛 Troubleshooting</a>
+<a href="about.html" >ℹ️ About (License)</a>
+<a href="contact.html" >✉️ Contact</a>
+<a href="legal.html" class="active">⚖️ Legal Notice</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Legal Notice</div>
+                <div class="lang-switcher">
+                    <a href="../es/legal.html" >ES</a>
+<a href="../en/legal.html" class="active">EN</a>
+<a href="../fr/legal.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+<h1>Legal Notice & Privacy</h1>
+<p>This website is purely informational, technical in nature, and open-source. As it does not constitute a commercial activity, strict e-commerce registrations do not apply.</p>
+<h2>1. Privacy and Tracking</h2>
+<p>True to the absolute privacy philosophy of the LSHC project, this website <strong>does not use cookies</strong>, does not employ tracking pixels, does not store IP addresses in external databases, and utilizes local system fonts. This site is designed under the principle of maximum privacy for the user.</p>
+<h2>2. Contact and Data</h2>
+<p>Any communication sent to the contact email will be treated with strict confidentiality. Email addresses will not be shared with third parties or used for commercial mailings (Spam). They will only be used to respond to the inquiry.</p>
+<h2>3. Intellectual Property</h2>
+<p>The code, design, and documentation are distributed under the <strong>GPL 3</strong> license, ensuring the software remains free and open-source.</p>
+            
+<h2>4. Limitation of Liability</h2>
+<p>LinuxServerHealthCheck is provided "AS IS", without warranty of any kind, express or implied. While the software is designed as a preventative monitoring tool, its use does not guarantee absolute system security or invulnerability to cyber attacks. The author shall not be liable under any circumstances for any direct, indirect damages, data loss, service interruptions, or security breaches (hacks) arising from the use, configuration, or inability to use this tool. Infrastructure security and alert mitigation remain the sole responsibility of the implementing system administrator.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a> license<br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">This LSHC documentation website does not use cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Legal Notice</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

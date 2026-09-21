@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Accueil (Aperçu)</a>
+<a href="audience.html" >🎯 Cas d'Utilisation et Prérequis</a>
+<a href="quickstart.html" >⚡ Guide de Démarrage Rapide</a>
+<a href="architecture.html" >🧩 Architecture Technique</a>
+<a href="toggle.html" >⚙️ Activation des Modules</a>
+<a href="dependencies.html" >📦 Dépendances des Modules</a>
+<a href="development.html" >🛠️ Développement de Modules</a>
+<a href="troubleshooting.html" >🐛 Dépannage</a>
+<a href="about.html" >ℹ️ À propos (Licence)</a>
+<a href="contact.html" >✉️ Contact</a>
+<a href="legal.html" class="active">⚖️ Mentions Légales</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Mentions Légales</div>
+                <div class="lang-switcher">
+                    <a href="../es/legal.html" >ES</a>
+<a href="../en/legal.html" >EN</a>
+<a href="../fr/legal.html" class="active">FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">
+<h1>Mentions Légales et Confidentialité</h1>
+<p>Ce site web est purement informatif, de nature technique et open-source. Comme il ne constitue pas une activité commerciale, les enregistrements stricts de commerce électronique ne s'appliquent pas.</p>
+<h2>1. Confidentialité et Suivi</h2>
+<p>Fidèle à la philosophie de confidentialité absolue du projet LSHC, ce site web <strong>n'utilise pas de cookies</strong>, n'emploie pas de pixels de suivi, ne stocke pas les adresses IP dans des bases de données externes et utilise les polices du système local. Ce site est conçu selon le principe de confidentialité maximale pour l'utilisateur.</p>
+<h2>2. Contact et Données</h2>
+<p>Toute communication adressée à l'e-mail de contact sera traitée avec la plus stricte confidentialité. Les adresses e-mail ne seront pas partagées avec des tiers ni utilisées pour des envois commerciaux (Spam). Elles seront uniquement utilisées pour répondre à la demande.</p>
+<h2>3. Propriété Intellectuelle</h2>
+<p>Le code, la conception et la documentation sont distribués sous la licence <strong>GPL 3</strong>, garantissant que le logiciel reste libre et open-source.</p>
+            
+<h2>4. Limitation de Responsabilité</h2>
+<p>LinuxServerHealthCheck est fourni « EN L'ÉTAT » (AS IS), sans garantie d'aucune sorte, expresse ou implicite. Bien que le logiciel soit conçu comme un outil de surveillance préventive, son utilisation ne garantit pas la sécurité absolue du système ni l'invulnérabilité face aux cyberattaques. L'auteur ne saurait être tenu responsable en aucune circonstance des dommages directs, indirects, de la perte de données, des interruptions de service ou des failles de sécurité (piratages) découlant de l'utilisation, de la configuration ou de l'incapacité d'utiliser cet outil. La sécurité de l'infrastructure et la mitigation des alertes relèvent exclusivement de la responsabilité de l'administrateur système qui le déploie.</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) sous la licence <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Ce site web de documentation LSHC n'utilise pas de cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Mentions Légales</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

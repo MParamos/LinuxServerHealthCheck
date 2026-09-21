@@ -1,0 +1,32 @@
+<!-- =======================================================================
+  @file      template.html
+  @brief     HTML presentation template for the Logical Storage module.
+  @author Miguel Páramos (www.miguelparamos.com)
+======================================================================== -->
+<div class="module-container">
+    <h3 class="module-title">${L_STORAGE_LOGICAL}</h3>
+    ${DISKS_USAGE_HTML}
+    
+    <div style="margin-top:20px;">
+        <h4 style="color:#cbd5e1; margin-bottom:10px;">Carpetas más pesadas (Raíz)</h4>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            ${HEAVY_FOLDERS_HTML}
+        </table>
+    </div>
+
+    ${HOME_FOLDERS_HTML}
+
+    <div style="margin-top:20px;">
+        <h4 style="color:#cbd5e1; margin-bottom:10px;">Top 5 Archivos más pesados</h4>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            ${HEAVY_FILES_HTML}
+        </table>
+    </div>
+
+    <div style="margin-top:20px;">
+        <h4 style="color:#cbd5e1; margin-bottom:10px;">Top 5 Archivos modificados recientemente</h4>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            ${RECENT_FILES_HTML}
+        </table>
+    </div>
+</div>

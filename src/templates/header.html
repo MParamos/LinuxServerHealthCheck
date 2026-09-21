@@ -1,0 +1,65 @@
+<!-- =======================================================================
+  @file      header.html
+  @brief     Component of the LinuxServerHealthCheck framework.
+  @author Miguel Páramos (www.miguelparamos.com)
+======================================================================== -->
+<!DOCTYPE html>
+<html lang="${LANGUAGE}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${L_TITLE}</title>
+<style>
+    body { background-color: #011536 !important; background-image: radial-gradient(circle at 50% 0%, #03214a, #010a14) !important; margin: 0; padding: 40px 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e2e8f0 !important; }
+    table.container { background-color: #0b131a !important; border: 1px solid #1a2a3a !important; border-radius: 12px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0px 15px 35px rgba(0,0,0,0.6); border-collapse: collapse; }
+    .header { padding: 40px 30px 20px 30px; text-align: center; }
+    .header img { max-width: 120px; }
+    .header h2 { color: #00d2ff !important; margin: 15px 0 5px 0; font-size: 18px; font-weight: normal; }
+    .header h1 { color: #ffffff !important; margin: 0; font-size: 26px; font-weight: 600; letter-spacing: 1px; }
+    .separator { height: 3px; width: 60px; background: linear-gradient(90deg, #00d2ff 0%, #00ffaa 100%); margin: 15px auto 0 auto; border-radius: 2px; }
+    .content { padding: 30px; line-height: 1.7; color: #cbd5e1 !important; }
+    h3 { color: #ffffff !important; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #1a2a3a; padding-bottom: 10px; margin-top: 30px; margin-bottom: 15px; }
+    p { margin: 8px 0; font-size: 14px; }
+    strong { color: #ffffff !important; font-weight: 600; }
+    ul { padding-left: 20px; font-size: 13px; }
+    .footer { text-align: center; padding: 20px; border-top: 1px solid #1a2a3a; font-size: 12px; color: #64748b !important; border-radius: 0 0 12px 12px; }
+    a { color: #00d2ff !important; text-decoration: none; }
+
+    .module-container { background-color: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #1e293b; }
+    .module-title { color: #38bdf8; margin-top: 0; border-bottom: 2px solid #0ea5e9; padding-bottom: 10px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+    .module-subtitle { color: #cbd5e1; margin-bottom: 10px; font-size: 14px; font-weight: bold; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .data-table tr { border-bottom: 1px solid #334155; }
+    .data-table td { padding: 8px 0; }
+    .highlight-box { margin-top: 15px; padding: 15px; background: #1e293b; border-radius: 4px; }
+    .highlight-blue { border-left: 4px solid #0ea5e9; }
+    .highlight-green { border-left: 4px solid #10b981; }
+    .highlight-purple { border-left: 4px solid #8b5cf6; }
+    .text-ok { color: #00d2ff; }
+    .text-warn { color: #ffcc00; }
+    .text-crit { color: #ff3366; }
+    .text-muted { color: #64748b; }
+</style>
+</head>
+<body>
+    <table class="container" role="presentation">
+        <tr>
+            <td class="header">
+                <a href="https://www.miguelparamos.com" target="_blank"><img src="https://www.miguelparamos.com/img/mparamos%20logo%20vectorial.svg" alt="Miguel Páramos Logo" border="0"></a>
+                <h2>[ Miguel Páramos - miguelparamos.com ]</h2>
+                <h1>${L_TITLE}</h1>
+                <div class="separator"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <div style="text-align: center; margin-bottom: 40px; margin-top: 10px;">
+                    <span style="display: inline-block; background-color: #00d2ff; color: #011536 !important; color: #011536; font-size: 15px; font-weight: bold; padding: 10px 24px; border-radius: 30px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,210,255,0.3);">
+                        📅 ${L_REPORT_DATE}: ${START_TIME}
+                    </span>
+                    <br>
+                    <span style="display: inline-block; background-color: #1a2a3a; color: #cbd5e1; font-size: 12px; font-weight: normal; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; margin-top: 10px; border: 1px solid #334155;">
+                        🕒 ${L_PREV_REPORT_DATE}: ${LAST_AUDIT_DATE}
+                    </span>
+                </div>
+
