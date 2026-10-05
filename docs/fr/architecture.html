@@ -113,6 +113,11 @@ sequenceDiagram
 <li>Supprimez physiquement le dossier du module dans <code>src/modules/</code>.</li>
 <li>Exécutez <code>docker compose build --no-cache && docker compose up -d</code> pour recréer le conteneur principal sans les dépendances APT du module supprimé.</li>
 </ol>
+            
+<h2>6. Immuabilité et Recréation Obligatoire (Zero-Trust)</h2>
+<p>LSHC est conçu selon le principe strict de l'<strong>Infrastructure Immuable</strong>. Le conteneur principal n'autorise pas le rechargement à chaud (hot-reloading) des fichiers, pas même du fichier de configuration <code>.env</code>.</p>
+<p><strong>Pourquoi cette décision ?</strong> Si des fichiers de l'hôte étaient mappés directement à l'intérieur du conteneur en direct (volumes de configuration), un script malveillant ou un attaquant ayant un accès non privilégié au serveur physique pourrait altérer le fichier <code>.env</code> ou les scripts des modules. Lors de la prochaine exécution de Cron, le conteneur (qui a un mode privilégié) exécuterait ce code injecté en tant que <i>root</i>.</p>
+<p>En forçant la cuisson des fichiers dans l'image (ou l'injection native des variables uniquement au démarrage), nous comblons complètement cette vulnérabilité. C'est pourquoi toute modification de code ou de variable nécessitera toujours de recréer le conteneur (<code>docker compose up -d</code>) ou de le reconstruire (<code>docker compose build</code>), transformant le système en un bunker Zero-Trust.</p>
             </div>
         </div>
         <footer class="site-footer">

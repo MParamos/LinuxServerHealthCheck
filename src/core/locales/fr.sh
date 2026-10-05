@@ -1,24 +1,19 @@
 # ==============================================================================
-# @file      fr.sh
-# @brief     Localization constants for the core framework.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_TITLE="Audit sur ${MACHINE_UPPER}"
-L_START_ANALYSIS="[ HEALTHCHECK - DÉMARRAGE DE L'ANALYSE SUR ${MACHINE_UPPER} ]"
-L_LAST_AUDIT="Audit précédent"
+L_TITLE="Audit de ${MACHINE_UPPER}"
+L_START_ANALYSIS="[ HEALTHCHECK - DÉBUT DE L'ANALYSE SUR ${MACHINE_UPPER} ]"
 L_NEVER="Jamais (Première analyse)"
-L_OS_DETECTED="OS Détecté"
-L_REPORT_DATE="Fecha surl reporte"
-L_PREV_REPORT_DATE="Fecha surl reporte anterior"
-
-L_CLI_MANUAL_TRIG="[*] Déclenchement manuel de LinuxServerHealthCheck dans le conteneur :"
-L_CLI_EMAIL_OK="[+] E-mail envoyé avec succès !"
+L_REPORT_DATE="Date du rapport"
+L_PREV_REPORT_DATE="Date du rapport précédent"
+L_CLI_MANUAL_TRIG="[*] Déclenchement manuel de LinuxServerHealthCheck dans le conteneur:"
+L_CLI_EMAIL_OK="[+] E-mail envoyé avec succès!"
 L_CLI_EMAIL_FAIL="[-] Échec de l'envoi de l'e-mail."
-L_CLI_DB_PRUNED="[+] Base de données purgée et rapport enregistré."
-L_CLI_SUCCESS="[*] LinuxServerHealthCheck déclenché avec succès ! Vérifiez votre boîte de réception."
-L_EXEC_TIME="Temps d execution du scanner"
-L_OK="[OK]"
-L_WARN="[AVERTISSEMENT]"
-L_CAUTION="[PRUDENCE]"
+L_CLI_DB_PRUNED="[+] Base de données nettoyée et rapport enregistré."
+L_CLI_SUCCESS="[*] LinuxServerHealthCheck déclenché avec succès! Vérifiez votre boîte de réception."
+L_EXEC_TIME="Temps d'exécution du scanner"
+L_SECONDS="secondes"
+L_FOOTER_COPYRIGHT="Le code et le conteneur LinuxServerHealthCheck sont la propriété de <a href=\"https://www.miguelparamos.com\">Miguel Páramos</a>.<br>Sous licence <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL v3</a>."
+L_SUBJECT_MANUAL="[LinuxServerHealthCheck] Audit MANUEL de"
+L_SUBJECT_AUTO="[LinuxServerHealthCheck] Audit de"
+L_CORE_INTEGRITY_TITLE="Erreur d'intégrité"
+L_CORE_INTEGRITY_DESC="Le module <strong>\$MOD</strong> ne respecte pas les règles d'intégrité et a été bloqué par sécurité. Les fichiers clés suivants sont manquants :"
+L_CORE_SYNTAX_DESC="Le module <strong>\$MOD</strong> contient une erreur de syntaxe dans son code et a été bloqué préventivement. Détails de l'erreur :"

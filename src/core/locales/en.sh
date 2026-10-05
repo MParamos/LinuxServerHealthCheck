@@ -1,24 +1,19 @@
 # ==============================================================================
-# @file      en.sh
-# @brief     Localization constants for the core framework.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
 L_TITLE="Audit of ${MACHINE_UPPER}"
 L_START_ANALYSIS="[ HEALTHCHECK - STARTING ANALYSIS ON ${MACHINE_UPPER} ]"
-L_LAST_AUDIT="Previous Audit"
 L_NEVER="Never (First analysis)"
-L_OS_DETECTED="Detected OS"
-L_REPORT_DATE="Fecha ofl reporte"
-L_PREV_REPORT_DATE="Fecha ofl reporte anterior"
-
+L_REPORT_DATE="Report Date"
+L_PREV_REPORT_DATE="Previous Report Date"
 L_CLI_MANUAL_TRIG="[*] Triggering manual LinuxServerHealthCheck inside container:"
 L_CLI_EMAIL_OK="[+] Email sent successfully!"
 L_CLI_EMAIL_FAIL="[-] Failed to send email."
 L_CLI_DB_PRUNED="[+] Database pruned and report logged."
 L_CLI_SUCCESS="[*] LinuxServerHealthCheck triggered successfully! Check your inbox."
 L_EXEC_TIME="Scanner execution time"
-L_OK="[OK]"
-L_WARN="[WARNING]"
-L_CAUTION="[CAUTION]"
+L_SECONDS="seconds"
+L_FOOTER_COPYRIGHT="The LinuxServerHealthCheck code and container are property of <a href=\"https://www.miguelparamos.com\">Miguel Páramos</a>.<br>Licensed under <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL v3</a>."
+L_SUBJECT_MANUAL="[LinuxServerHealthCheck] MANUAL Audit for"
+L_SUBJECT_AUTO="[LinuxServerHealthCheck] Audit for"
+L_CORE_INTEGRITY_TITLE="Integrity Error"
+L_CORE_INTEGRITY_DESC="The <strong>\$MOD</strong> module does not comply with integrity rules and has been blocked for security. The following key files are missing:"
+L_CORE_SYNTAX_DESC="The <strong>\$MOD</strong> module contains a syntax error in its code and has been preventively blocked. Error details:"

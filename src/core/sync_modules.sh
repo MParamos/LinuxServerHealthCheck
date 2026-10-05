@@ -27,7 +27,7 @@ for mod_dir in "$MODULES_DIR"/*/; do
         # El módulo tiene carpeta pero no está en el conf.
         # Ejecutar cleanup.sql si existe
         if [ -f "$mod_dir/cleanup.sql" ]; then
-            echo "[SYNC] Limpiando base de datos del módulo desactivado: $mod_name"
+            echo "[SYNC] Pruning database for deactivated module: $mod_name"
             mysql -h 127.0.0.1 -P 33060 -u root -p${DB_ROOT_PASSWORD:-supersecret123} healthcheck < "$mod_dir/cleanup.sql"
         fi
     fi

@@ -14,9 +14,9 @@ while read -r line; do
     if [ -z "$MNT" ]; then MNT="/"; fi
     SIZE=$(echo $line | awk '{print $2}')
     USED=$(echo $line | awk '{print $3}')
-    if [ "$USAGE" -gt 90 ]; then DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> <span style='color:#ff3366;'>$USED / $SIZE ($USAGE%) ${L_WARN}</span></p>"
-    elif [ "$USAGE" -gt 75 ]; then DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> <span style='color:#ffcc00;'>$USED / $SIZE ($USAGE%) ${L_CAUTION}</span></p>"
-    else DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> $USED / $SIZE ($USAGE%) <span style='color:#00d2ff;'>${L_OK}</span></p>"; fi
+    if [ "$USAGE" -gt 90 ]; then DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> <span style='color:#ff3366;'>$USED / $SIZE ($USAGE%) ${L_LS_WARN}</span></p>"
+    elif [ "$USAGE" -gt 75 ]; then DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> <span style='color:#ffcc00;'>$USED / $SIZE ($USAGE%) ${L_LS_CAUTION}</span></p>"
+    else DISKS_USAGE_HTML+="<p><strong>$MNT:</strong> $USED / $SIZE ($USAGE%) <span style='color:#00d2ff;'>${L_LS_OK}</span></p>"; fi
 done <<< "$(df -h | grep '^/dev/')"
 export DISKS_USAGE_HTML
 
@@ -45,7 +45,7 @@ if [ -d "/host/home" ]; then
                     HOME_FOLDERS_HTML+="<tr style='border-bottom:1px solid #334155;'><td style='padding:8px 0;'>$PATH_STR</td><td style='text-align:right; color:#0ea5e9;'>$SIZE</td></tr>"
                 done <<< "$TOP_HOME"
             else
-                HOME_FOLDERS_HTML+="<tr><td colspan='2' style='padding:8px 0; color:#64748b;'>Directorio vacío o sin permisos.</td></tr>"
+                HOME_FOLDERS_HTML+="<tr><td colspan='2' style='padding:8px 0; color:#64748b;'>${L_EMPTY_DIR}</td></tr>"
             fi
             HOME_FOLDERS_HTML+="</table></div>"
         fi

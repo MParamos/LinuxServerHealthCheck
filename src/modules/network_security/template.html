@@ -5,12 +5,13 @@
 ======================================================================== -->
 <div class="module-container">
     <h3 class="module-title">${L_NETWORK_SEC}</h3>
-    <p><strong>Puertos TCP/UDP a la escucha:</strong><br>
+    <p style="margin-bottom:2px;"><strong>${L_PORTS}</strong></p>
+    <p style="color: #666; font-size: 0.9em; margin-top:0; margin-bottom: 5px;">${L_PORTS_LEGEND}</p>
     <div style="background:#1e293b; padding:10px; border-radius:8px; font-family:monospace; margin-top:5px;">
         ${PORTS_HTML}
-    </div></p>
+    </div>
     <div style="margin-top:15px; padding:15px; background:#1e293b; border-left:4px solid #0ea5e9; border-radius:4px;">
-        <p style="margin:0 0 10px 0;"><strong>Accesos SSH (Autenticaciones)</strong></p>
+        <p style="margin:0 0 10px 0;"><strong>${L_SSH_LOGINS}</strong></p>
         ${SSH_FAILS_HTML}
         ${SSH_SUCCESS_HTML}
     </div>

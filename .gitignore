@@ -20,3 +20,18 @@ logs/
 # IDE files
 .vscode/
 .idea/
+
+# Testing scripts
+battery_test*.sh
+
+# Backup and temp files
+*.bak
+*~
+*.tmp
+*.swp
+
+# Temporary fix and test scripts
+fix_*.py
+language_test*.sh
+audit_locales.py
+

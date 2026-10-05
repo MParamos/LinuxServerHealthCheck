@@ -1,14 +1,14 @@
 # ==============================================================================
-# @file      es.sh
-# @brief     Localization constants for the User Integrity module.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_USERS_INTEGRITY="👥 Integridad y Acceso de Usuarios"
-L_USER_INTEGRITY="👥 Integridad y Acceso de Usuarios"
-L_USERS_SHELL="Usuarios en el sistema"
-L_USERS_ALL="Usuarios del sistema"
+L_USER_INTEGRITY="👥 Integridad de Usuarios y Accesos"
+L_USERS_ALL="Todos los usuarios"
 L_USERS_ROOT="Usuarios con privilegios Root (UID 0)"
-
 L_CLI_USERS="[USERS] Comprobando usuarios..."
+L_INTRUDER="¡INTRUSO/SOSPECHOSO!"
+L_NEVER_LOGGED="Nunca"
+L_LAST_LOGIN="Último acceso:"
+L_INTERACTIVE="👤 Usuarios Interactivos (Acceso a consola)"
+L_INTERACTIVE_DESC="Usuarios que pueden iniciar sesión y ejecutar comandos. Un atacante intentaría colarse aquí."
+L_SERVICE="⚙️ Cuentas de Servicio (Protegidas)"
+L_SERVICE_DESC="cuentas internas (servicios del sistema) bloqueadas por seguridad (nologin/false)."
+L_UI_OK="[OK]"
+L_UI_WARN="[ADVERTENCIA]"

@@ -1,44 +1,42 @@
 #!/bin/bash
 # ==============================================================================
 # @file      verifyModule.sh
-# @brief     Helper to verify active modules and install dependencies.
+# @brief     Utility to verify an individual module interactively.
 # @author Miguel Páramos (www.miguelparamos.com)
 #
 # This file belongs to the LinuxServerHealthCheck framework.
 # ==============================================================================
-# Script interactivo para verificar la integridad de un módulo
+MODULES_DIR="$(dirname "$0")/../modules"
 
-cd "$(dirname "$0")/../modules"
+clear
+echo "=== Module Verifier ==="
 
-echo "=== Verificador de Módulos ==="
-folders=(*/)
-if [ ${#folders[@]} -eq 0 ] || [ "${folders[0]}" = "*/" ]; then
-    echo "No hay módulos instalados."
+if [ ! -d "$MODULES_DIR" ] || [ -z "$(ls -A "$MODULES_DIR")" ]; then
+    echo "No modules installed."
     exit 1
 fi
 
-echo "Módulos disponibles:"
+echo "Available modules:"
 i=1
-declare -A MOD_MAP
-for d in "${folders[@]}"; do
-    MOD_NAME=$(basename "$d")
-    echo "$i) $MOD_NAME"
-    MOD_MAP[$i]=$MOD_NAME
-    ((i++))
+declare -a MOD_ARRAY
+for mod in "$MODULES_DIR"/*; do
+    if [ -d "$mod" ]; then
+        MOD_NAME=$(basename "$mod")
+        MOD_ARRAY[$i]=$MOD_NAME
+        echo "$i) $MOD_NAME"
+        i=$((i+1))
+    fi
 done
 
 echo ""
-read -p "Selecciona un módulo para verificar (1-$((i-1))): " selection
+read -p "Select a module to verify (1-$((i-1))): " SELECTION
 
-if [ -z "${MOD_MAP[$selection]}" ]; then
-    echo "Selección no válida."
+if [ -z "${MOD_ARRAY[$SELECTION]}" ]; then
+    echo "Invalid selection."
     exit 1
 fi
 
-SELECTED_MOD="${MOD_MAP[$selection]}"
+SELECTED_MOD="${MOD_ARRAY[$SELECTION]}"
 echo ""
-echo "[*] Ejecutando verificación detallada para: $SELECTED_MOD"
-
-# Llamar al subscript que hace el trabajo real
-../core/check_module_integrity.sh "$SELECTED_MOD" "verbose"
-
+echo "[*] Running detailed verification for: $SELECTED_MOD"
+"$(dirname "$0")/check_module_integrity.sh" "$SELECTED_MOD" "verbose"

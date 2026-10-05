@@ -1,24 +1,22 @@
 # ==============================================================================
-# @file      fr.sh
-# @brief     Localization constants for the Performance module.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_PERF_STATE="⚙️ État surs Performances"
-L_ACTUAL_CPU="Température actuelle CPU"
-L_CPU_HIST="Température CPU (Depuis le surrnier rapport):"
-L_GPU_TEMP="Température GPU"
-L_GPU_TEMP_CURR="Température actuelle GPU"
-L_GPU_TEMP_HIST="Température GPU (Dessur el informe anterior):"
-L_NO_GPU="Aucun GPU détecté"
-L_THERMAL_ALERT="${L_CAUTION} ALERTE THERMIQUE"
-L_LOAD="Charge Système actuelle (Moyenne / Cœurs)"
-L_LOAD_HIST="Charge Système (Depuis le surrnier rapport):"
-L_STRESS="${L_CAUTION} CHARGE ÉLEVÉE"
-L_RAM="Mémoire RAM occupée actuelle"
-L_RAM_HIST="Mémoire RAM occupée (Depuis le surrnier rapport):"
+L_PERF_STATE="⚙️ État des Performances"
+L_ACTUAL_CPU="Température actuelle du CPU"
+L_CPU_HIST="Température du CPU (Depuis le dernier rapport):"
+L_GPU="GPU:"
+L_GPU_TEMP_CURR="Température actuelle du GPU:"
+L_GPU_HIST="Historique GPU:"
+L_NO_GPU="Aucun GPU détecté sur ce système"
+L_NO_DIRECT_SENSOR="N/A (Pas de capteur direct)"
+L_LOAD="Charge Système Actuelle (Moyenne / Cœurs)"
+L_LOAD_HIST="Charge Système (Depuis le dernier rapport):"
+L_STRESS="CHARGE ÉLEVÉE"
+L_ELEV_LOAD="CHARGE MOYENNE-HAUTE"
+L_CAPACITY_PERC="% de capacité"
+L_RAM="RAM actuellement occupée"
+L_RAM_HIST="RAM occupée (Depuis le dernier rapport):"
 L_OF="sur"
-L_STABLE_LOAD="Charge stable."
-
 L_CLI_PERF="[METRICS] Collecte des métriques de performance (Performance Module)..."
+L_AT="à"
+L_PERF_OK="[OK]"
+L_PERF_WARN="[AVERTISSEMENT]"
+L_PERF_CAUTION="[ATTENTION]"

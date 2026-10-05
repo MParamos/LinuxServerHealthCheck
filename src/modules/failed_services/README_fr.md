@@ -1,10 +1,10 @@
-# Docker Health Module
+# Module des Services Défaillants
 
 - **What it is:** A LinuxServerHealthCheck module, created by [Miguel Páramos](https://www.miguelparamos.com).
 - **Author:** [Miguel Páramos](https://www.miguelparamos.com)
 
 ## Description
-Monitors the state of the Docker daemon and running containers. It identifies containers that have unexpectedly stopped or are failing, helping maintain microservice uptime.
+Interroge le gestionnaire systemd pour identifier tout service système natif qui a échoué ou planté, permettant une détection rapide des pannes silencieuses de démons.
 
 ## Verification
 **Why this is a valid LinuxServerHealthCheck module:**

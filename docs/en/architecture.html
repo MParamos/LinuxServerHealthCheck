@@ -113,6 +113,11 @@ sequenceDiagram
 <li>Physically delete the module's folder in <code>src/modules/</code>.</li>
 <li>Run <code>docker compose build --no-cache && docker compose up -d</code> to recreate the main container without the deleted module's APT dependencies.</li>
 </ol>
+            
+<h2>6. Immutability and Mandatory Recreation (Zero-Trust)</h2>
+<p>LSHC is designed under the strict principle of <strong>Immutable Infrastructure</strong>. The main container does not allow hot-reloading of files, not even the <code>.env</code> configuration file.</p>
+<p><strong>Why this decision?</strong> If host files were mapped directly inside the container dynamically (configuration volumes), a malicious script or an attacker with unprivileged access to the physical server could alter the <code>.env</code> file or the module scripts. On the next Cron execution, the container (which runs in privileged mode) would execute that injected code as <i>root</i>.</p>
+<p>By forcing files to be baked into the image (or natively injecting variables only during startup), we completely close that vulnerability. This is why any code or variable change will always require recreating the container (<code>docker compose up -d</code>) or rebuilding it (<code>docker compose build</code>), turning the system into a Zero-Trust bunker.</p>
             </div>
         </div>
         <footer class="site-footer">

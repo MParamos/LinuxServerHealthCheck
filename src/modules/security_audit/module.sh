@@ -31,17 +31,17 @@ while IFS= read -r line; do
     fi
 done < /var/log/lynis-report.dat 2>/dev/null
 
-if [ -z "$WARNINGS_DETAILS" ]; then WARNINGS_DETAILS="<li style='color:#10b981; font-size:14px;'>0 Warnings (Limpio)</li>"; fi
-if [ -z "$SUGGESTIONS_DETAILS" ]; then SUGGESTIONS_DETAILS="<li style='color:#10b981; font-size:14px;'>0 Sugerencias (Limpio)</li>"; fi
+if [ -z "$WARNINGS_DETAILS" ]; then WARNINGS_DETAILS="<li style='color:#10b981; font-size:14px;'>0 ${L_WARNINGS} (${L_CLEAN})</li>"; fi
+if [ -z "$SUGGESTIONS_DETAILS" ]; then SUGGESTIONS_DETAILS="<li style='color:#10b981; font-size:14px;'>0 ${L_SUGGESTIONS} (${L_CLEAN})</li>"; fi
 
-export AUDIT_HTML="<p><span style='color:#ffcc00; font-weight:bold;'>$WARNINGS_COUNT Warnings</span> | <span style='color:#00d2ff; font-weight:bold;'>$SUGGESTIONS_COUNT Sugerencias</span></p>
-<p style='color:#64748b; font-size:13px;'>$TESTS_DONE tests de seguridad ejecutados</p>
+export AUDIT_HTML="<p><span style='color:#ffcc00; font-weight:bold;'>$WARNINGS_COUNT ${L_WARNINGS}</span> | <span style='color:#00d2ff; font-weight:bold;'>$SUGGESTIONS_COUNT ${L_SUGGESTIONS}</span></p>
+<p style='color:#64748b; font-size:13px;'>$TESTS_DONE ${L_TESTS_DONE}</p>
 <div style='margin-top:15px;'>
-    <h4 style='color:#ff3366; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:10px;'>Detalles de Warnings</h4>
+    <h4 style='color:#ff3366; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:10px;'>${L_WARN_DETAILS}</h4>
     <ul style='list-style-type:none; padding-left:0; margin:0;'>$WARNINGS_DETAILS</ul>
 </div>
 <div style='margin-top:15px;'>
-    <h4 style='color:#0ea5e9; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:10px;'>Detalles de Sugerencias</h4>
+    <h4 style='color:#0ea5e9; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:10px;'>${L_SUGG_DETAILS}</h4>
     <ul style='list-style-type:none; padding-left:0; margin:0;'>$SUGGESTIONS_DETAILS</ul>
 </div>"
 

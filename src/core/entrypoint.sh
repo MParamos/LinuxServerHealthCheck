@@ -8,9 +8,9 @@
 # ==============================================================================
 echo "Starting LinuxServerHealthCheck Entrypoint..."
 
-if [ -f /etc/healthcheck.conf ]; then
-    set -a; source /etc/healthcheck.conf 2>/dev/null; set +a
-fi
+# Dump Docker native environment variables to a secure internal file for Cron usage
+export -p > /etc/healthcheck.conf
+chmod 400 /etc/healthcheck.conf
 
 # Set default timezone if provided
 if [ -n "$TZ" ]; then

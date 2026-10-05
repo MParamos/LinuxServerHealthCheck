@@ -18,7 +18,7 @@ else export UPDATES_HTML="<span style='color:#00d2ff;'>Sistema al día</span>"; 
 ZOMBIES_LIST=$(ps -eo stat,pid,cmd | awk '$1 ~ /^Z/ {print "PID: " $2 " - " $3}')
 ZOMBIES_COUNT=$(echo "$ZOMBIES_LIST" | grep -c "PID:")
 if [ "$ZOMBIES_COUNT" -gt 0 ]; then
-    ZOMBIES_HTML="<span style='color:#ff3366;'>$ZOMBIES_COUNT ${L_CAUTION}</span>"
+    ZOMBIES_HTML="<span style='color:#ff3366;'>$ZOMBIES_COUNT ${L_OS_CAUTION}</span>"
     while IFS= read -r z_line; do
         if [ -n "$z_line" ]; then
             ZOMBIES_HTML+="<br><span style='color:#ffcc00; font-size:12px;'>↳ $z_line</span>"

@@ -41,7 +41,7 @@ for disk in $(lsblk -nd -o NAME | grep -E 'sd|nvme'); do
                 PERC_USED=$((POH * 100 / 43800))
                 REMAINING=$((100 - PERC_USED))
                 if [ "$REMAINING" -lt 0 ]; then REMAINING=0; fi
-                EXTRA_SMART="<span style='color:#64748b; font-size:12px;'> (Vida util rest. estimada: ~${REMAINING}%)</span>"
+                EXTRA_SMART="<span style='color:#64748b; font-size:12px;'> (${L_LIFE_LEFT}: ~${REMAINING}%)</span>"
             fi
         fi
     fi
@@ -71,29 +71,29 @@ for disk in $(lsblk -nd -o NAME | grep -E 'sd|nvme'); do
     fi
 
     INFO_STR=""
-    if [ -n "$MODEL" ]; then INFO_STR+="<li><strong>Modelo:</strong> <span style='color:#0ea5e9;'>$MODEL</span></li>"; fi
-    if [ -n "$SERIAL" ]; then INFO_STR+="<li><strong>Número de Serie:</strong> <span style='color:#cbd5e1;'>$SERIAL</span></li>"; fi
-    if [ -n "$POH_ACTUAL" ]; then INFO_STR+="<li><strong>Horas Encendido:</strong> <span style='color:#cbd5e1;'>$POH_ACTUAL h</span></li>"; fi
-    if [ -n "$POWER_CYCLES" ]; then INFO_STR+="<li><strong>Ciclos Encendido:</strong> <span style='color:#cbd5e1;'>$POWER_CYCLES</span></li>"; fi
+    if [ -n "$MODEL" ]; then INFO_STR+="<li><strong>${L_MODEL}:</strong> <span style='color:#0ea5e9;'>$MODEL</span></li>"; fi
+    if [ -n "$SERIAL" ]; then INFO_STR+="<li><strong>${L_SERIAL}:</strong> <span style='color:#cbd5e1;'>$SERIAL</span></li>"; fi
+    if [ -n "$POH_ACTUAL" ]; then INFO_STR+="<li><strong>${L_POWER_HOURS}:</strong> <span style='color:#cbd5e1;'>$POH_ACTUAL h</span></li>"; fi
+    if [ -n "$POWER_CYCLES" ]; then INFO_STR+="<li><strong>${L_POWER_CYCLES}:</strong> <span style='color:#cbd5e1;'>$POWER_CYCLES</span></li>"; fi
     if [ "$TEMP" != "N/A" ]; then
         TEMP_RAW=$(echo "$TEMP" | tr -d 'ºC')
         TEMP_STATUS=""
         if [ "$TEMP_RAW" -gt 60 ]; then
-            TEMP_STATUS="<span style='color:#ff3366;'>${L_CAUTION}</span>"
+            TEMP_STATUS="<span style='color:#ff3366;'>${L_HW_CAUTION}</span>"
         elif [ "$TEMP_RAW" -gt 50 ]; then
-            TEMP_STATUS="<span style='color:#ffcc00;'>${L_WARN}</span>"
+            TEMP_STATUS="<span style='color:#ffcc00;'>${L_HW_WARN}</span>"
         else
-            TEMP_STATUS="<span style='color:#00d2ff;'>${L_OK}</span>"
+            TEMP_STATUS="<span style='color:#00d2ff;'>${L_HW_OK}</span>"
         fi
-        INFO_STR+="<li><strong>Temperatura:</strong> <span style='color:#cbd5e1;'>${TEMP_RAW}ºC</span> ${TEMP_STATUS}</li>"
+        INFO_STR+="<li><strong>${L_TEMP}:</strong> <span style='color:#cbd5e1;'>${TEMP_RAW}ºC</span> ${TEMP_STATUS}</li>"
     fi
     if [ -n "$ERRORS" ]; then
         COLOR="#10b981"; if [ "$ERRORS" -gt 0 ] 2>/dev/null; then COLOR="#ff3366"; fi
-        INFO_STR+="<li><strong>Errores de Log:</strong> <span style='color:$COLOR; font-weight:bold;'>$ERRORS</span></li>"
+        INFO_STR+="<li><strong>${L_LOG_ERR}:</strong> <span style='color:$COLOR; font-weight:bold;'>$ERRORS</span></li>"
     fi
     if [ -n "$SECTORS" ]; then
         COLOR="#10b981"; if [ "$SECTORS" -gt 0 ] 2>/dev/null; then COLOR="#ff3366"; fi
-        INFO_STR+="<li><strong>Sectores Defectuosos:</strong> <span style='color:$COLOR; font-weight:bold;'>$SECTORS</span></li>"
+        INFO_STR+="<li><strong>${L_BAD_SECTORS}:</strong> <span style='color:$COLOR; font-weight:bold;'>$SECTORS</span></li>"
     fi
     
     if [ -n "$INFO_STR" ]; then
@@ -107,8 +107,8 @@ for disk in $(lsblk -nd -o NAME | grep -E 'sd|nvme'); do
     SPEED_RAW=$(hdparm -t $DEV 2>/dev/null | grep "MB/sec" | awk '{print $11}')
     if [ -n "$SPEED_RAW" ]; then
         SPEED_INT=$(echo $SPEED_RAW | awk '{print int($1)}')
-        if [ "$SPEED_INT" -lt 100 ]; then SPEED_HTML+="<p style='margin-left:20px; margin-top:2px;'>- <strong>$DEV:</strong> <span style='color:#ff3366;'>${SPEED_RAW} MB/sec ${L_CAUTION} (Pobre)</span></p>"
-        elif [ "$SPEED_INT" -lt 400 ]; then SPEED_HTML+="<p style='margin-left:20px; margin-top:2px;'>- <strong>$DEV:</strong> <span style='color:#ffcc00;'>${SPEED_RAW} MB/sec (SATA HDD / Slow SSD)</span></p>"
+        if [ "$SPEED_INT" -lt 100 ]; then SPEED_HTML+="<p style='margin-left:20px; margin-top:2px;'>- <strong>$DEV:</strong> <span style='color:#ff3366;'>${SPEED_RAW} MB/sec ${L_HW_CAUTION} (${L_PERF_POOR})</span></p>"
+        elif [ "$SPEED_INT" -lt 400 ]; then SPEED_HTML+="<p style='margin-left:20px; margin-top:2px;'>- <strong>$DEV:</strong> <span style='color:#ffcc00;'>${SPEED_RAW} MB/sec (${L_PERF_SLOW})</span></p>"
         else SPEED_HTML+="<p style='margin-left:20px; margin-top:2px;'>- <strong>$DEV:</strong> <span style='color:#00d2ff;'>${SPEED_RAW} MB/sec (SATA SSD / NVMe)</span></p>"; fi
     fi
 done

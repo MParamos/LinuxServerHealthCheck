@@ -15,7 +15,7 @@ if [ -z "$FAILED_RAW" ]; then
     FAILED_SERVICES_HTML="<p><span style='color:#10b981; font-weight:bold;'>0</span> <span style='color:#cbd5e1;'>${L_NO_FAILED_SERVICES}</span></p>"
 else
     COUNT=$(echo "$FAILED_RAW" | wc -l)
-    FAILED_SERVICES_HTML="<p><span style='color:#ff3366; font-weight:bold;'>$COUNT</span> <span style='color:#cbd5e1;'>${L_FAILED_SERVICES} ${L_CAUTION}</span></p>"
+    FAILED_SERVICES_HTML="<p><span style='color:#ff3366; font-weight:bold;'>$COUNT</span> <span style='color:#cbd5e1;'>${L_FAILED_SERVICES} ${L_FS_CAUTION}</span></p>"
     FAILED_SERVICES_HTML+="<ul style='list-style-type:none; padding-left:15px; margin-top:5px; margin-bottom:10px; font-size:12px; color:#cbd5e1;'>"
     while read -r line; do
         if [ -n "$line" ]; then

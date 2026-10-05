@@ -43,6 +43,10 @@
             </header>
             <div class="content-body">
                 <h1>Guía Rápida de Uso</h1><ol><li><strong>Clonar el Repositorio:</strong> Descarga el código fuente en tu máquina host.</li><li><strong>Configurar Variables:</strong> Copia el archivo de ejemplo a <code>.env</code> y define las credenciales SMTP, correos de destino y contraseñas de base de datos.</li><li><strong>Construir e Iniciar:</strong> Ejecuta <code>docker compose build --no-cache && docker compose up -d</code>. El contenedor orquestador instalará dinámicamente las dependencias de los módulos activos.</li><li><strong>Ejecución Manual:</strong> Para forzar un informe inmediato sin esperar al cron, ejecuta <code>./RunManualHealthCheck.sh</code> desde el host.</li></ol>
+<br>
+<div class="alert alert-warning"><strong>Aplicar Cambios:</strong> Por razones estrictas de seguridad (Infraestructura Inmutable), este contenedor no lee archivos en caliente. Si modificas el archivo <code>.env</code>, debes aplicar los cambios con <code>docker compose up -d</code>. Si activas o desactivas módulos en <code>ModulesInReport.conf</code>, debes recompilar el código con <code>docker compose build --no-cache && docker compose up -d</code>.</div>
+<br>
+
             </div>
         </div>
         <footer class="site-footer">

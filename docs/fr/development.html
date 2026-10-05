@@ -42,7 +42,86 @@
                 </div>
             </header>
             <div class="content-body">
-                <h1>Développement de Modules</h1><p>La création d'un nouveau module est triviale. Créez un dossier dans <code>src/modules/mon_module</code> avec au moins deux fichiers :</p><ol><li><strong>module.sh :</strong> Script bash qui récupère des métriques et expose une variable HTML (ex. <code>export MON_HTML="&lt;p&gt;Données&lt;/p&gt;"</code>).</li><li><strong>template.html :</strong> Modèle qui appelle votre variable (ex. <code>${MON_HTML}</code>) à l'intérieur d'un <code>&lt;div class="module-container"&gt;</code>.</li></ol><p>Ajoutez <code>mon_module</code> au fichier <code>ModulesInReport.conf</code> et c'est terminé ! Le framework injectera la structure automatiquement dans le rapport final.</p>
+                <h1>Développement de Modules</h1>
+<p>La création d'un nouveau module nécessite de suivre l'architecture stricte du framework. Comme dicté par le script <code>check_module_integrity.sh</code>, il y a <strong>5 fichiers obligatoires</strong> et plusieurs fichiers optionnels pour des fonctionnalités avancées.</p>
+<p class="alert alert-warning"><strong>Important ! Nommage Strict :</strong> Vous ne pouvez pas nommer ces fichiers comme bon vous semble. Le cœur de l'orchestrateur (<code>AssemblyScript.sh</code>, <code>daemon.sh</code>) est programmé pour rechercher et exécuter exactement ces noms de fichiers. S'ils sont renommés, le framework les ignorera.</p>
+
+<h2>Fichiers Obligatoires</h2>
+<p>Ils doivent exister dans <code>src/modules/ton_module/</code>.</p>
+
+<h3>1. module.sh</h3>
+<p>Le script Bash qui exécute la logique et exporte une variable HTML. Il s'exécute de manière sûre et isolée dans un subshell.</p>
+<strong>Exemple :</strong><br>
+<pre><code>#!/bin/bash
+export MON_MODULE_HTML=""
+# Logique...
+if [ 1 -eq 1 ]; then
+    MON_MODULE_HTML="&lt;p&gt;Le serveur fonctionne bien.&lt;/p&gt;"
+fi
+</code></pre>
+
+<h3>2. template.html</h3>
+<p>Le modèle visuel de la boîte de données. Il appelle les variables exportées.</p>
+<strong>Exemple :</strong><br>
+<pre><code>&lt;div class="module-container"&gt;
+    &lt;h3 class="module-title"&gt;${L_TITLE_MON_MODULE}&lt;/h3&gt;
+    ${MON_MODULE_HTML}
+&lt;/div&gt;
+</code></pre>
+
+<h3>3. locales/ (Dossier de Traduction)</h3>
+<p>Doit contenir au moins <code>en.sh</code> (ainsi que <code>es.sh</code> et <code>fr.sh</code>) avec les variables linguistiques.</p>
+<strong>Exemple :</strong><br>
+<pre><code># Fichier locales/fr.sh
+L_TITLE_MON_MODULE="⚙️ Mon Module"
+L_TEXT_SUCCESS="Tout va bien"
+</code></pre>
+
+<h3>4. README.md & LICENSE</h3>
+<p>Fichiers texte standard expliquant l'objectif technique du module et sa licence légale open-source.</p>
+
+<hr>
+
+<h2>Fichiers Optionnels (Fonctionnalités Avancées)</h2>
+<p>Les scripts suivants ne sont nécessaires que si votre module utilise la base de données MariaDB pour stocker des métriques historiques, ou s'il requiert des binaires Linux externes.</p>
+
+<h3>5. packages.txt</h3>
+<p>Si votre module a besoin de binaires natifs du système d'exploitation, listez-les ici. L'orchestrateur les installera dynamiquement avec <code>apt-get</code> lors de la phase de <i>build</i>.</p>
+<strong>Exemple :</strong><br>
+<pre><code>net-tools
+iproute2
+</code></pre>
+
+<h3>6. schema.sql</h3>
+<p>Si votre module a besoin de sauvegarder des données historiques, ce fichier s'exécutera au démarrage du conteneur pour créer la table de manière sécurisée. <strong>Important :</strong> Vous devez explicitement écrire l'instruction <code>IF NOT EXISTS</code> dans votre code SQL afin d'éviter les conflits ou les erreurs de syntaxe lors du redémarrage ou de la recréation du conteneur.</p>
+<strong>Exemple :</strong><br>
+<pre><code>CREATE TABLE IF NOT EXISTS mod_monmodule_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</code></pre>
+
+<h3>7. collect.sh</h3>
+<p>Script Bash exécuté en arrière-plan (orchestré par <code>daemon.sh</code> toutes les quelques minutes) pour recueillir des métriques continues et les insérer dans la base de données.</p>
+<strong>Exemple :</strong><br>
+<pre><code>#!/bin/bash
+DONNEES_ACTUELLES=$(free -m | awk '/^Mem:/{print $3}')
+mysql -h 127.0.0.1 -P 33060 -u root -p${DB_ROOT_PASSWORD} healthcheck -e "INSERT INTO mod_monmodule_data (data) VALUES ($DONNEES_ACTUELLES);"
+</code></pre>
+
+<h3>8. prune.sh</h3>
+<p>Script Bash exécuté juste après l'envoi du rapport pour purger les anciennes données de votre table, empêchant la croissance infinie du disque.</p>
+<strong>Exemple :</strong><br>
+<pre><code>#!/bin/bash
+mysql -h 127.0.0.1 -P 33060 -u root -p${DB_ROOT_PASSWORD} healthcheck -e "DELETE FROM mod_monmodule_data WHERE timestamp < NOW() - INTERVAL 7 DAY;"
+</code></pre>
+
+<h3>9. cleanup.sql</h3>
+<p>Script SQL exécuté automatiquement par <code>sync_modules.sh</code> si l'administrateur désactive le module dans le fichier de configuration. Il doit supprimer complètement vos tables pour éviter de laisser des données orphelines.</p>
+<strong>Exemple :</strong><br>
+<pre><code>DROP TABLE IF EXISTS mod_monmodule_data;
+</code></pre>
             </div>
         </div>
         <footer class="site-footer">

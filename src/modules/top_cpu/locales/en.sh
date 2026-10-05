@@ -5,5 +5,5 @@
 #
 # This file belongs to the LinuxServerHealthCheck framework.
 # ==============================================================================
-L_TOP_CPU="🔥 Top CPU Consumers currently"
+L_TOP_CPU="🔥 Top CPU-Consuming Processes"
 L_CLI_TOPCPU="[TOP] CPU Processes..."

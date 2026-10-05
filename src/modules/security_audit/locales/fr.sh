@@ -1,10 +1,10 @@
 # ==============================================================================
-# @file      fr.sh
-# @brief     Localization constants for the Security Audit module.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_SEC_AUDIT="🛡️ Audit sur Seguridad (Lynis)"
-
+L_SEC_AUDIT="🛡️ Audit de Sécurité (Lynis)"
 L_CLI_LYNIS="[SECURITY] Exécution du scanner Lynis..."
+L_SCAN_RESULTS="Résultats du scanner :"
+L_CLEAN="Propre"
+L_WARNINGS="Avertissements"
+L_SUGGESTIONS="Suggestions"
+L_TESTS_DONE="tests de sécurité effectués"
+L_WARN_DETAILS="Détails des Avertissements"
+L_SUGG_DETAILS="Détails des Suggestions"

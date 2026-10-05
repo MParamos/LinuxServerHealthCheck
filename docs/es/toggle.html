@@ -45,7 +45,7 @@
                 <h1>Activación y Desactivación de Módulos</h1><p>Abre el archivo <code>ModulesInReport.conf</code> situado en la raíz del proyecto. Cada línea representa el nombre de la carpeta de un módulo en <code>src/modules/</code>.</p><pre><code>performance
 logical_storage
 network_security
-# docker_health (Comentado = Desactivado)</code></pre><div class="alert alert-warning"><strong>Importante:</strong> Si añades un módulo que requiere nuevos binarios del sistema operativo (definidos en su <code>packages.txt</code>), debes reconstruir el contenedor con <code>docker compose build --no-cache</code> para que se instalen.</div>
+# docker_health (Comentado = Desactivado)</code></pre><div class="alert alert-warning"><strong>Importante:</strong> Cualquier modificación que hagas en <code>ModulesInReport.conf</code> (ya sea añadir un módulo nuevo, borrarlo, desactivarlo, o volver a activar uno que estaba comentado) requiere obligatoriamente que reconstruyas el contenedor para aplicar los cambios en la arquitectura ejecutando: <code>docker compose build --no-cache && docker compose up -d</code>.</div>
             </div>
         </div>
         <footer class="site-footer">

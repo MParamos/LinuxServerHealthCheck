@@ -43,6 +43,38 @@
             </header>
             <div class="content-body">
                 <h1>Dépendances des Modules</h1><p>Afin de garder l'image Docker aussi légère que possible, le système utilise la <strong>Résolution Dynamique des Dépendances</strong>.</p><p>Si un module nécessite une commande spécifique (comme <code>nmap</code>, <code>smartmontools</code> ou <code>lm-sensors</code>), incluez simplement un fichier nommé <code>packages.txt</code> à sa racine, listant les paquets APT ligne par ligne.</p><p>Lors du <code>docker compose build</code>, le Dockerfile lira <code>ModulesInReport.conf</code>, itérera sur les modules actifs, concaténera leurs fichiers <code>packages.txt</code>, et installera exactement et uniquement ce qui est nécessaire.</p>
+            
+<h2>Structure Minimale Obligatoire</h2>
+<p>Pour garantir la stabilité du framework, l'orchestrateur vérifie l'intégrité structurelle de chaque module avant de l'exécuter. Cette validation est effectuée à chaque exécution par le script interne <code>check_module_integrity.sh</code>.</p>
+<p>Si un module ne possède pas les fichiers strictement requis, l'orchestrateur l'isolera et affichera une boîte d'alerte rouge dans le rapport au lieu de planter.</p>
+<p>Les fichiers obligatoires que tout module doit posséder sont :</p>
+<ul>
+    <li><code>module.sh</code> : Le script Bash exécutable contenant la logique du module.</li>
+    <li><code>template.html</code> : La mise en page HTML pour la boîte du module, utilisant des variables (ex: <code>$MA_VARIABLE</code>).</li>
+    <li><code>README.md</code> : Documentation technique de base expliquant ce que fait le module.</li>
+    <li><code>LICENSE</code> : Le fichier de licence (généralement MIT ou GPL).</li>
+    <li><code>locales/</code> : Le dossier obligatoire qui doit contenir, au minimum, un fichier <code>en.sh</code> (en plus de <code>es.sh</code> et <code>fr.sh</code> si pris en charge) pour les traductions.</li>
+</ul>
+<h2>Fichiers Optionnels (Fonctionnalités Avancées)</h2>
+<p>Si le module doit interagir avec la base de données ou installer des utilitaires système, il peut inclure de manière facultative :</p>
+<ul>
+    <li><code>packages.txt</code> : Dépendances à installer via <code>apt-get</code>.</li>
+    <li><code>schema.sql</code> : Structure des tables SQL (exécuté au démarrage).</li>
+    <li><code>collect.sh</code> : Script pour la collecte de métriques en arrière-plan.</li>
+    <li><code>prune.sh</code> : Script pour le nettoyage récurrent des anciens enregistrements.</li>
+    <li><code>cleanup.sql</code> : Script SQL de suppression totale, exécuté lors de la désactivation du module.</li>
+</ul>
+<p><i>Note : Vous pouvez trouver une description complète avec des exemples de code de tous les fichiers dans la section <b>Développement de Modules</b>.</i></p>
+<h3>Exemple de Structure de Module</h3>
+<pre><code>src/modules/mon_nouveau_module/
+├── LICENSE
+├── README.md
+├── module.sh
+├── template.html
+└── locales/
+    ├── en.sh
+    ├── es.sh
+    └── fr.sh</code></pre>
             </div>
         </div>
         <footer class="site-footer">

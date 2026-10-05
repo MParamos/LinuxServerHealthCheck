@@ -5,5 +5,5 @@
 #
 # This file belongs to the LinuxServerHealthCheck framework.
 # ==============================================================================
-L_TOP_RAM="🔥 Top RAM Consumers currently"
+L_TOP_RAM="🔥 Top RAM-Consuming Processes"
 L_CLI_TOPRAM="[TOP] RAM Processes..."

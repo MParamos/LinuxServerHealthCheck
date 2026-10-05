@@ -43,6 +43,38 @@
             </header>
             <div class="content-body">
                 <h1>Requisitos de los Módulos</h1><p>Para mantener la imagen Docker lo más ligera posible, el sistema utiliza <strong>Resolución Dinámica de Dependencias</strong>.</p><p>Si un módulo necesita un comando específico (como <code>nmap</code>, <code>smartmontools</code> o <code>lm-sensors</code>), simplemente incluye un archivo llamado <code>packages.txt</code> en su raíz, listando los paquetes APT línea por línea.</p><p>Durante el <code>docker compose build</code>, el Dockerfile leerá <code>ModulesInReport.conf</code>, iterará sobre los módulos activos, concatenará sus archivos <code>packages.txt</code>, e instalará exactamente y únicamente lo necesario.</p>
+            
+<h2>Estructura Mínima Obligatoria</h2>
+<p>Para garantizar la estabilidad del framework, el orquestador verifica la integridad estructural de cada módulo antes de ejecutarlo. Esta validación se realiza en cada ejecución mediante el script interno <code>check_module_integrity.sh</code>.</p>
+<p>Si un módulo no posee los archivos estrictamente necesarios, el orquestador lo aislará y mostrará una alerta roja en el informe en lugar de colapsar.</p>
+<p>Los archivos obligatorios que todo módulo debe tener son:</p>
+<ul>
+    <li><code>module.sh</code>: El script ejecutable en Bash que contiene la lógica del módulo.</li>
+    <li><code>template.html</code>: El diseño HTML de la caja del módulo, con variables (ej. <code>$MI_VARIABLE</code>).</li>
+    <li><code>README.md</code>: Documentación técnica básica sobre lo que hace el módulo.</li>
+    <li><code>LICENSE</code>: El archivo de licencia (generalmente MIT o GPL).</li>
+    <li><code>locales/</code>: La carpeta obligatoria que debe contener, como mínimo, un archivo <code>en.sh</code> (además de <code>es.sh</code> y <code>fr.sh</code> si están soportados) con las traducciones.</li>
+</ul>
+<h2>Archivos Opcionales (Funciones Avanzadas)</h2>
+<p>Si el módulo requiere interactuar con la base de datos o instalar utilidades del sistema, puede incluir de manera opcional:</p>
+<ul>
+    <li><code>packages.txt</code>: Dependencias a instalar mediante <code>apt-get</code>.</li>
+    <li><code>schema.sql</code>: Estructura de tablas SQL (ejecutado al arranque).</li>
+    <li><code>collect.sh</code>: Script para recolección de métricas en segundo plano.</li>
+    <li><code>prune.sh</code>: Script para limpieza recurrente de registros antiguos.</li>
+    <li><code>cleanup.sql</code>: Script SQL de borrado total, ejecutado al desactivar el módulo.</li>
+</ul>
+<p><i>Nota: Tienes un desglose completo con ejemplos de código de todos los archivos en la sección <b>Desarrollo de Módulos</b>.</i></p>
+<h3>Ejemplo de Estructura de Módulo</h3>
+<pre><code>src/modules/mi_nuevo_modulo/
+├── LICENSE
+├── README.md
+├── module.sh
+├── template.html
+└── locales/
+    ├── en.sh
+    ├── es.sh
+    └── fr.sh</code></pre>
             </div>
         </div>
         <footer class="site-footer">

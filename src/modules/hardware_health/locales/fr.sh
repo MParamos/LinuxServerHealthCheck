@@ -1,12 +1,18 @@
 # ==============================================================================
-# @file      fr.sh
-# @brief     Localization constants for the Hardware Health module.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_HARDWARE_HEALTH="🩺 Salud sur Hardware Físico"
-L_RAW_READ_PERF="Rendimiento sur Lectura Bruta (hdparm)"
-L_THRESHOLDS="Seuils: <50 MB/s (Critique) | 50-150 MB/s (HDD) | 150-500 MB/s (SSD SATA) | >500 MB/s (NVMe)"
-
-L_CLI_HW="[DISK] Analyse de la santé physique du matériel (SMART et hdparm)..."
+L_HARDWARE_HEALTH="🩺 Santé du Matériel Physique"
+L_RAW_READ_PERF="Performances de Lecture Brutes (hdparm)"
+L_THRESHOLDS="Seuils : <50 MB/s (Critique) | 50-150 MB/s (HDD) | 150-500 MB/s (SATA SSD) | >500 MB/s (NVMe)"
+L_CLI_HW="[DISK] Analyse de la santé physique du matériel (SMART & hdparm)..."
+L_LIFE_LEFT="Durée de vie restante estimée"
+L_MODEL="Modèle"
+L_SERIAL="Numéro de Série"
+L_POWER_HOURS="Heures de Fonctionnement"
+L_POWER_CYCLES="Cycles d'Alimentation"
+L_TEMP="Température"
+L_LOG_ERR="Erreurs de Journal"
+L_BAD_SECTORS="Secteurs Défectueux"
+L_PERF_POOR="Faible"
+L_PERF_SLOW="SATA HDD / SSD Lent"
+L_HW_OK="[OK]"
+L_HW_WARN="[AVERTISSEMENT]"
+L_HW_CAUTION="[ATTENTION]"

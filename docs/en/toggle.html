@@ -45,7 +45,7 @@
                 <h1>Module Toggle</h1><p>Open the <code>ModulesInReport.conf</code> file located in the root of the project. Each line represents the folder name of a module in <code>src/modules/</code>.</p><pre><code>performance
 logical_storage
 network_security
-# docker_health (Commented = Disabled)</code></pre><div class="alert alert-warning"><strong>Important:</strong> If you add a module that requires new OS binaries (defined in its <code>packages.txt</code>), you must rebuild the container with <code>docker compose build --no-cache</code> for them to be installed.</div>
+# docker_health (Commented = Disabled)</code></pre><div class="alert alert-warning"><strong>Important:</strong> Any modification made to <code>ModulesInReport.conf</code> (whether adding a new module, deleting, deactivating, or reactivating a previously commented one) strictly requires you to rebuild the container to apply architectural changes by running: <code>docker compose build --no-cache && docker compose up -d</code>.</div>
             </div>
         </div>
         <footer class="site-footer">

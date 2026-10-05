@@ -43,6 +43,10 @@
             </header>
             <div class="content-body">
                 <h1>Guide de Démarrage Rapide</h1><ol><li><strong>Cloner le Dépôt :</strong> Téléchargez le code source sur votre machine hôte.</li><li><strong>Configurer les Variables :</strong> Copiez le fichier d'exemple vers <code>.env</code> et définissez vos identifiants SMTP, e-mails cibles et mots de passe de base de données.</li><li><strong>Construire et Démarrer :</strong> Exécutez <code>docker compose build --no-cache && docker compose up -d</code>. Le conteneur orchestrateur installera dynamiquement les dépendances pour les modules actifs.</li><li><strong>Exécution Manuelle :</strong> Pour forcer un rapport immédiat sans attendre cron, exécutez <code>./RunManualHealthCheck.sh</code> depuis l'hôte.</li></ol>
+<br>
+<div class="alert alert-warning"><strong>Appliquer les Changements :</strong> Pour des raisons de sécurité strictes (Infrastructure Immuable), ce conteneur ne recharge pas les fichiers à chaud. Si vous modifiez le fichier <code>.env</code>, vous devez appliquer les changements avec <code>docker compose up -d</code>. Si vous activez ou désactivez des modules dans <code>ModulesInReport.conf</code>, vous devez recompiler le code avec <code>docker compose build --no-cache && docker compose up -d</code>.</div>
+<br>
+
             </div>
         </div>
         <footer class="site-footer">

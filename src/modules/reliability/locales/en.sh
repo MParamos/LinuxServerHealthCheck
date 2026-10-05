@@ -5,13 +5,14 @@
 #
 # This file belongs to the LinuxServerHealthCheck framework.
 # ==============================================================================
-L_SYS_HISTORY="🕒 Time & Reliability"
-L_SYS_UPTIME="Tiempo of actividad (Uptime)"
-L_LAST_BOOT="Last Boot"
-L_LAST_SHUTDOWN="Last Shutdown"
-L_NET_AVAIL="Disponibilidad of red (ofsof última auditoría)"
+L_SYS_UPTIME="Uptime"
+L_NET_AVAIL="Network availability (since last audit)"
 L_TIME_REL="🕒 Time & Reliability"
 L_BOOT_TIME="Last Boot"
 L_SHUTDOWN_TIME="Last Shutdown"
-
 L_CLI_REL="[METRICS] Gathering reliability metrics (Reliability Module)..."
+L_REL_LAST_AUDIT="Previous Audit"
+L_REL_OK="[OK]"
+L_REL_WARN="[WARNING]"
+L_REL_CAUTION="[CAUTION]"
+L_REL_UNKNOWN="Unknown"

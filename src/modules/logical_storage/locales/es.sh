@@ -1,18 +1,16 @@
 # ==============================================================================
-# @file      es.sh
-# @brief     Localization constants for the Logical Storage module.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
-L_STORAGE_LOGICAL="💽 Almacenamiento Lógico (Particiones)"
-L_STORAGE_CALC="[DISK] Calculando espacio de almacenamiento por partición..."
-
+L_STORAGE_LOGICAL="📁 Almacenamiento Lógico (Particiones)"
+L_HOME_FOLDERS="Carpetas más pesadas de"
+L_CACHE_FILES="Archivos Caché (Total)"
+L_TEMP_FILES="Archivos Temporales (Total)"
 L_CLI_STORAGE="[DISK] Calculando almacenamiento lógico..."
 L_CLI_FOLDERS="[DISK] Buscando carpetas más pesadas (root)..."
 L_CLI_FILES="[DISK] Buscando archivos más pesados..."
 L_CLI_RECENT="[DISK] Buscando archivos recientes..."
-
-L_CACHE_FILES="Archivos de Caché (Total)"
-L_TEMP_FILES="Archivos Temporales (Total)"
-L_HOME_FOLDERS="Carpetas más pesadas de"
+L_HEAVY_FOLDERS="Carpetas más pesadas (Raíz)"
+L_EMPTY_DIR="Directorio vacío o sin permisos."
+L_TOP_HEAVY_FILES="Top 5 Archivos más pesados"
+L_TOP_RECENT_FILES="Top 5 Archivos modificados recientemente"
+L_LS_OK="[OK]"
+L_LS_WARN="[ADVERTENCIA]"
+L_LS_CAUTION="[PRECAUCIÓN]"

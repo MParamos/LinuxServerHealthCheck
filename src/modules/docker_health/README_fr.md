@@ -1,10 +1,10 @@
-# Docker Health Module
+# Module de Santé Docker
 
 - **What it is:** A LinuxServerHealthCheck module, created by [Miguel Páramos](https://www.miguelparamos.com).
 - **Author:** [Miguel Páramos](https://www.miguelparamos.com)
 
 ## Description
-Monitors the state of the Docker daemon and running containers. It identifies containers that have unexpectedly stopped or are failing, helping maintain microservice uptime.
+Surveille l'état du démon Docker et des conteneurs en cours d'exécution. Il identifie les conteneurs qui se sont arrêtés de manière inattendue ou qui échouent, aidant à maintenir la disponibilité des microservices.
 
 ## Verification
 **Why this is a valid LinuxServerHealthCheck module:**

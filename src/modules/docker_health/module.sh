@@ -30,7 +30,7 @@ else
             DOCKER_HEALTH_HTML+="<span style='color:#64748b; font-weight:bold;'>$EXITED</span> <span style='color:#cbd5e1; font-size:13px;'>${L_DOCKER_EXITED}</span> | "
         fi
         if [ "$RESTARTING" -gt 0 ]; then
-            DOCKER_HEALTH_HTML+="<span style='color:#ff3366; font-weight:bold;'>$RESTARTING</span> <span style='color:#cbd5e1; font-size:13px;'>${L_DOCKER_RESTARTING} ${L_CAUTION}</span>"
+            DOCKER_HEALTH_HTML+="<span style='color:#ff3366; font-weight:bold;'>$RESTARTING</span> <span style='color:#cbd5e1; font-size:13px;'>${L_DOCKER_RESTARTING} ${L_DH_CAUTION}</span>"
         else
             DOCKER_HEALTH_HTML+="<span style='color:#64748b; font-weight:bold;'>$RESTARTING</span> <span style='color:#cbd5e1; font-size:13px;'>${L_DOCKER_RESTARTING}</span>"
         fi

@@ -43,6 +43,38 @@
             </header>
             <div class="content-body">
                 <h1>Module Dependencies</h1><p>To keep the Docker image as lightweight as possible, the system uses <strong>Dynamic Dependency Resolution</strong>.</p><p>If a module needs a specific command (like <code>nmap</code>, <code>smartmontools</code> or <code>lm-sensors</code>), simply include a file named <code>packages.txt</code> in its root, listing the APT packages line by line.</p><p>During the <code>docker compose build</code>, the Dockerfile will read <code>ModulesInReport.conf</code>, iterate over active modules, concatenate their <code>packages.txt</code> files, and install exactly and only what is needed.</p>
+            
+<h2>Mandatory Minimum Structure</h2>
+<p>To guarantee framework stability, the orchestrator verifies the structural integrity of each module before executing it. This validation is performed on every run by the internal <code>check_module_integrity.sh</code> script.</p>
+<p>If a module lacks the strictly required files, the orchestrator will isolate it and display a red alert box in the report instead of crashing.</p>
+<p>The mandatory files that every module must possess are:</p>
+<ul>
+    <li><code>module.sh</code>: The executable Bash script containing the module's logic.</li>
+    <li><code>template.html</code>: The HTML layout for the module's box, using variables (e.g. <code>$MY_VARIABLE</code>).</li>
+    <li><code>README.md</code>: Basic technical documentation explaining what the module does.</li>
+    <li><code>LICENSE</code>: The license file (usually MIT or GPL).</li>
+    <li><code>locales/</code>: The mandatory folder that must contain, at a minimum, an <code>en.sh</code> file (alongside <code>es.sh</code> and <code>fr.sh</code> if supported) for translations.</li>
+</ul>
+<h2>Optional Files (Advanced Features)</h2>
+<p>If the module requires interacting with the database or installing system utilities, it may optionally include:</p>
+<ul>
+    <li><code>packages.txt</code>: Dependencies to install via <code>apt-get</code>.</li>
+    <li><code>schema.sql</code>: SQL tables structure (executed at startup).</li>
+    <li><code>collect.sh</code>: Script for background metric collection.</li>
+    <li><code>prune.sh</code>: Script for recurrent cleanup of old records.</li>
+    <li><code>cleanup.sql</code>: Total wipe SQL script, executed when deactivating the module.</li>
+</ul>
+<p><i>Note: You can find a complete breakdown with code examples of all files in the <b>Module Development</b> section.</i></p>
+<h3>Example Module Structure</h3>
+<pre><code>src/modules/my_new_module/
+├── LICENSE
+├── README.md
+├── module.sh
+├── template.html
+└── locales/
+    ├── en.sh
+    ├── es.sh
+    └── fr.sh</code></pre>
             </div>
         </div>
         <footer class="site-footer">

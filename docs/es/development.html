@@ -42,7 +42,86 @@
                 </div>
             </header>
             <div class="content-body">
-                <h1>Desarrollo de Nuevos Módulos</h1><p>Crear un módulo nuevo es trivial. Crea una carpeta en <code>src/modules/mi_modulo</code> con al menos dos archivos:</p><ol><li><strong>module.sh:</strong> Script bash que obtenga métricas y exponga una variable HTML (ej. <code>export MI_HTML="&lt;p&gt;Datos&lt;/p&gt;"</code>).</li><li><strong>template.html:</strong> Plantilla que llame a tu variable (ej. <code>${MI_HTML}</code>) dentro de un <code>&lt;div class="module-container"&gt;</code>.</li></ol><p>Añade <code>mi_modulo</code> al archivo <code>ModulesInReport.conf</code> ¡y listo! El framework inyectará la estructura automáticamente en el informe final.</p>
+                <h1>Desarrollo de Módulos</h1>
+<p>Crear un módulo nuevo requiere seguir la arquitectura estricta del framework. Tal y como dicta el script <code>check_module_integrity.sh</code>, existen <strong>5 archivos obligatorios</strong> y varios opcionales para funciones avanzadas.</p>
+<p class="alert alert-warning"><strong>¡Importante! Nombres Estrictos:</strong> No puedes nombrar estos archivos como quieras. El núcleo del orquestador (<code>AssemblyScript.sh</code>, <code>daemon.sh</code>) está programado para buscar y ejecutar exactamente estos nombres de archivo. Si los renombras, el framework simplemente los ignorará.</p>
+
+<h2>Archivos Obligatorios</h2>
+<p>Deben existir en <code>src/modules/tu_modulo/</code>.</p>
+
+<h3>1. module.sh</h3>
+<p>El script de Bash que ejecuta la lógica y exporta una variable HTML. Se ejecuta de forma segura y aislada mediante un <i>subshell</i>.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>#!/bin/bash
+export MI_MODULO_HTML=""
+# Lógica...
+if [ 1 -eq 1 ]; then
+    MI_MODULO_HTML="&lt;p&gt;Todo correcto en el servidor.&lt;/p&gt;"
+fi
+</code></pre>
+
+<h3>2. template.html</h3>
+<p>La plantilla visual de la caja que contendrá los datos. Invoca las variables exportadas.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>&lt;div class="module-container"&gt;
+    &lt;h3 class="module-title"&gt;${L_TITLE_MI_MODULO}&lt;/h3&gt;
+    ${MI_MODULO_HTML}
+&lt;/div&gt;
+</code></pre>
+
+<h3>3. locales/ (Carpeta de Traducciones)</h3>
+<p>Debe contener al menos <code>en.sh</code> (además de <code>es.sh</code> y <code>fr.sh</code>) con las variables lingüísticas.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code># Archivo locales/es.sh
+L_TITLE_MI_MODULO="⚙️ Mi Módulo"
+L_TEXT_SUCCESS="Todo correcto"
+</code></pre>
+
+<h3>4. README.md & LICENSE</h3>
+<p>Archivos estándar de texto explicando la finalidad técnica del módulo y su licencia legal de código abierto.</p>
+
+<hr>
+
+<h2>Archivos Opcionales (Funciones Avanzadas)</h2>
+<p>Los siguientes scripts solo son necesarios si tu módulo utiliza la base de datos MariaDB para guardar métricas históricas, o requiere binarios de Linux externos.</p>
+
+<h3>5. packages.txt</h3>
+<p>Si tu módulo necesita binarios nativos del sistema operativo, lístalos aquí. El orquestador los instalará dinámicamente con <code>apt-get</code> al hacer <i>build</i>.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>net-tools
+iproute2
+</code></pre>
+
+<h3>6. schema.sql</h3>
+<p>Si tu módulo necesita guardar histórico de datos, este archivo se ejecutará al iniciar el contenedor para crear la tabla de forma segura. <strong>Importante:</strong> Debes escribir la sentencia explícita <code>IF NOT EXISTS</code> en tu código SQL para evitar conflictos o errores de sintaxis cuando el contenedor se reinicie o se vuelva a crear.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>CREATE TABLE IF NOT EXISTS mod_mimodulo_datos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dato INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</code></pre>
+
+<h3>7. collect.sh</h3>
+<p>Script de Bash que se ejecutará en segundo plano (orquestado por <code>daemon.sh</code> cada pocos minutos) para recabar métricas continuas e insertarlas en la base de datos.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>#!/bin/bash
+DATO_ACTUAL=$(free -m | awk '/^Mem:/{print $3}')
+mysql -h 127.0.0.1 -P 33060 -u root -p${DB_ROOT_PASSWORD} healthcheck -e "INSERT INTO mod_mimodulo_datos (dato) VALUES ($DATO_ACTUAL);"
+</code></pre>
+
+<h3>8. prune.sh</h3>
+<p>Script de Bash ejecutado justo después de enviar el informe para purgar datos viejos de tu tabla, evitando que el disco se llene infinitamente.</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>#!/bin/bash
+mysql -h 127.0.0.1 -P 33060 -u root -p${DB_ROOT_PASSWORD} healthcheck -e "DELETE FROM mod_mimodulo_datos WHERE timestamp < NOW() - INTERVAL 7 DAY;"
+</code></pre>
+
+<h3>9. cleanup.sql</h3>
+<p>Script SQL ejecutado automáticamente por <code>sync_modules.sh</code> si el administrador desactiva el módulo en el archivo de configuración. Debe borrar tus tablas por completo para no dejar basura o "datos huérfanos".</p>
+<strong>Ejemplo:</strong><br>
+<pre><code>DROP TABLE IF EXISTS mod_mimodulo_datos;
+</code></pre>
             </div>
         </div>
         <footer class="site-footer">

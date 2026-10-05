@@ -43,6 +43,10 @@
             </header>
             <div class="content-body">
                 <h1>Quick Start Guide</h1><ol><li><strong>Clone the Repository:</strong> Download the source code to your host machine.</li><li><strong>Configure Variables:</strong> Copy the example env file to <code>.env</code> and define your SMTP credentials, target emails, and database passwords.</li><li><strong>Build and Start:</strong> Run <code>docker compose build --no-cache && docker compose up -d</code>. The orchestrator container will dynamically install dependencies for active modules.</li><li><strong>Manual Execution:</strong> To force an immediate report without waiting for cron, run <code>./RunManualHealthCheck.sh</code> from the host.</li></ol>
+<br>
+<div class="alert alert-warning"><strong>Applying Changes:</strong> For strict security reasons (Immutable Infrastructure), this container does not hot-reload files. If you modify the <code>.env</code> file, you must apply the changes with <code>docker compose up -d</code>. If you toggle modules in <code>ModulesInReport.conf</code>, you must rebuild the code with <code>docker compose build --no-cache && docker compose up -d</code>.</div>
+<br>
+
             </div>
         </div>
         <footer class="site-footer">

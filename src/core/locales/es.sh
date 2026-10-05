@@ -1,24 +1,19 @@
 # ==============================================================================
-# @file      es.sh
-# @brief     Localization constants for the core framework.
-# @author Miguel Páramos (www.miguelparamos.com)
-#
-# This file belongs to the LinuxServerHealthCheck framework.
-# ==============================================================================
 L_TITLE="Auditoría de ${MACHINE_UPPER}"
 L_START_ANALYSIS="[ HEALTHCHECK - INICIANDO ANÁLISIS EN ${MACHINE_UPPER} ]"
-L_LAST_AUDIT="Auditoría anterior"
 L_NEVER="Nunca (Primer análisis)"
-L_OS_DETECTED="SO Detectado"
-L_REPORT_DATE="Fecha del reporte"
-L_PREV_REPORT_DATE="Fecha del reporte anterior"
-
+L_REPORT_DATE="Fecha del informe"
+L_PREV_REPORT_DATE="Fecha del informe anterior"
 L_CLI_MANUAL_TRIG="[*] Lanzando LinuxServerHealthCheck manual en el contenedor:"
 L_CLI_EMAIL_OK="[+] ¡Correo enviado correctamente!"
 L_CLI_EMAIL_FAIL="[-] Error al enviar el correo."
-L_CLI_DB_PRUNED="[+] Base de datos purgada y reporte registrado."
+L_CLI_DB_PRUNED="[+] Base de datos purgada e informe registrado."
 L_CLI_SUCCESS="[*] ¡LinuxServerHealthCheck ejecutado con éxito! Revisa tu bandeja de entrada."
 L_EXEC_TIME="Tiempo de ejecución del escáner"
-L_OK="[OK]"
-L_WARN="[ADVERTENCIA]"
-L_CAUTION="[PRECAUCIÓN]"
+L_SECONDS="segundos"
+L_FOOTER_COPYRIGHT="El código y el contenedor LinuxServerHealthCheck son propiedad de <a href=\"https://www.miguelparamos.com\">Miguel Páramos</a>.<br>Licenciado bajo <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL v3</a>."
+L_SUBJECT_MANUAL="[LinuxServerHealthCheck] Auditoría MANUAL de"
+L_SUBJECT_AUTO="[LinuxServerHealthCheck] Auditoría de"
+L_CORE_INTEGRITY_TITLE="Error de Integridad"
+L_CORE_INTEGRITY_DESC="El módulo <strong>\$MOD</strong> no cumple con las reglas de integridad y ha sido bloqueado por seguridad. Faltan los siguientes archivos clave:"
+L_CORE_SYNTAX_DESC="El módulo <strong>\$MOD</strong> contiene un error de sintaxis en su código y ha sido bloqueado preventivamente. Detalle del error:"

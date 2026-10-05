@@ -13,7 +13,7 @@ export BOOT_TIME=$(uptime -s)
 
 LAST_SHUTDOWN_RAW=$(last -F -x shutdown -f /host/var/log/wtmp 2>/dev/null | head -n 1)
 export SHUTDOWN_TIME=$(echo "$LAST_SHUTDOWN_RAW" | awk '{print $5, $6, $7, $8}')
-if [ -z "$SHUTDOWN_TIME" ]; then export SHUTDOWN_TIME="${L_UNKNOWN}"; fi
+if [ -z "$SHUTDOWN_TIME" ]; then export SHUTDOWN_TIME="${L_REL_UNKNOWN}"; fi
 
 # Deteccion crasheos
 LAST_REBOOT_RAW=$(last -F -x reboot -f /host/var/log/wtmp 2>/dev/null | head -n 1)
@@ -23,7 +23,7 @@ if [ -n "$LAST_SHUTDOWN_RAW" ] && [ -n "$LAST_REBOOT_RAW" ]; then
     if [ -n "$SHUTDOWN_EPOCH" ] && [ -n "$REBOOT_EPOCH" ]; then
         if [ "$REBOOT_EPOCH" -gt "$SHUTDOWN_EPOCH" ]; then
             DIFF=$((REBOOT_EPOCH - SHUTDOWN_EPOCH))
-            if [ "$DIFF" -gt 300 ]; then export CRASH_HTML="<br><span style='color:#ffcc00; font-size:12px;'>${L_CAUTION} Posible corte de energía o crash (El sistema arrancó sin registro de apagado previo cercano)</span>"
+            if [ "$DIFF" -gt 300 ]; then export CRASH_HTML="<br><span style='color:#ffcc00; font-size:12px;'>${L_REL_CAUTION} Posible corte de energía o crash (El sistema arrancó sin registro de apagado previo cercano)</span>"
             else export CRASH_HTML=""; fi
         else export CRASH_HTML=""; fi
     else export CRASH_HTML=""; fi
@@ -34,8 +34,8 @@ if [ -z "$NET_AVG" ] || [ "$NET_AVG" == "NULL" ]; then
     export NETWORK_AVAILABILITY="N/A"
 else
     if awk "BEGIN {exit !($NET_AVG < 95.00)}"; then
-        export NETWORK_AVAILABILITY="<span style='color:#ff3366;'>${NET_AVG}% ${L_WARN}</span>"
+        export NETWORK_AVAILABILITY="<span style='color:#ff3366;'>${NET_AVG}% ${L_REL_WARN}</span>"
     else
-        export NETWORK_AVAILABILITY="<span style='color:#00d2ff;'>${NET_AVG}% ${L_OK}</span>"
+        export NETWORK_AVAILABILITY="<span style='color:#00d2ff;'>${NET_AVG}% ${L_REL_OK}</span>"
     fi
 fi

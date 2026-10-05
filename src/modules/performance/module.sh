@@ -14,11 +14,11 @@ echo "${L_CLI_PERF}" >&2
 get_status_html() {
     local temp=$1
     if [ "$temp" -gt 80 ]; then
-        echo "<span style='color:#ff3366;'>${L_CAUTION}</span>"
+        echo "<span style='color:#ff3366;'>${L_PERF_CAUTION}</span>"
     elif [ "$temp" -gt 65 ]; then
-        echo "<span style='color:#ffcc00;'>${L_WARN}</span>"
+        echo "<span style='color:#ffcc00;'>${L_PERF_WARN}</span>"
     else
-        echo "<span style='color:#00d2ff;'>${L_OK}</span>"
+        echo "<span style='color:#00d2ff;'>${L_PERF_OK}</span>"
     fi
 }
 
@@ -59,8 +59,8 @@ if [ -z "$CPU_TEMP" ]; then CPU_TEMP=0; fi
 export CPU_TEMP_HTML="<p><strong>${L_ACTUAL_CPU}:</strong> $(get_status "$CPU_TEMP")</p>"
 
 # Historico CPU
-MIN_ROW=$($MYSQL_CMD "SELECT cpu_temp, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE cpu_temp IS NOT NULL ORDER BY cpu_temp ASC LIMIT 1;")
-MAX_ROW=$($MYSQL_CMD "SELECT cpu_temp, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE cpu_temp IS NOT NULL ORDER BY cpu_temp DESC LIMIT 1;")
+MIN_ROW=$($MYSQL_CMD "SELECT cpu_temp, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE cpu_temp IS NOT NULL ORDER BY cpu_temp ASC LIMIT 1;")
+MAX_ROW=$($MYSQL_CMD "SELECT cpu_temp, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE cpu_temp IS NOT NULL ORDER BY cpu_temp DESC LIMIT 1;")
 AVG_TEMP=$($MYSQL_CMD "SELECT ROUND(AVG(cpu_temp)) FROM mod_performance_metrics WHERE cpu_temp IS NOT NULL;")
 
 
@@ -77,10 +77,10 @@ elif chroot /host lspci 2>/dev/null | grep -i -E "vga|3d|display" | grep -i "int
 fi
 
 if [ -z "$GPU_INFO" ]; then
-    export GPU_TEMP_HTML="<p><strong>GPU:</strong> <span style='color:#64748b;'>No se detecta ninguna GPU en el sistema</span></p>"
+    export GPU_TEMP_HTML="<p><strong>${L_GPU}</strong> <span style='color:#64748b;'>${L_NO_GPU}</span></p>"
 else
-    MIN_GPU_ROW=$($MYSQL_CMD "SELECT gpu_temp, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE gpu_temp IS NOT NULL ORDER BY gpu_temp ASC LIMIT 1;")
-    MAX_GPU_ROW=$($MYSQL_CMD "SELECT gpu_temp, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE gpu_temp IS NOT NULL ORDER BY gpu_temp DESC LIMIT 1;")
+    MIN_GPU_ROW=$($MYSQL_CMD "SELECT gpu_temp, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE gpu_temp IS NOT NULL ORDER BY gpu_temp ASC LIMIT 1;")
+    MAX_GPU_ROW=$($MYSQL_CMD "SELECT gpu_temp, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE gpu_temp IS NOT NULL ORDER BY gpu_temp DESC LIMIT 1;")
     AVG_GPU_TEMP=$($MYSQL_CMD "SELECT ROUND(AVG(gpu_temp)) FROM mod_performance_metrics WHERE gpu_temp IS NOT NULL;")
 
     GPU_TEMP="N/A"
@@ -95,14 +95,14 @@ else
     fi
 
     if [ -z "$GPU_TEMP" ] || [ "$GPU_TEMP" == "N/A" ]; then
-        export GPU_TEMP_HTML="<p><strong>GPU:</strong> <span style='color:#0ea5e9;'>$GPU_INFO</span></p><p><strong>Temperatura actual GPU:</strong> N/A (Sin sensor directo)</p>"
+        export GPU_TEMP_HTML="<p><strong>${L_GPU}</strong> <span style='color:#0ea5e9;'>$GPU_INFO</span></p><p><strong>${L_GPU_TEMP_CURR}</strong> N/A (${L_NO_DIRECT_SENSOR})</p>"
     else
         if [ "$AVG_GPU_TEMP" == "NULL" ] || [ -z "$AVG_GPU_TEMP" ]; then AVG_GPU_TEMP=$GPU_TEMP; fi
         
         GPU_CURR_HTML=$(get_status "$GPU_TEMP")
-        export GPU_TEMP_HTML="<p><strong>GPU:</strong> <span style='color:#0ea5e9;'>$GPU_INFO</span></p>"
-        GPU_TEMP_HTML+="<p><strong>Temperatura actual GPU:</strong> $GPU_CURR_HTML</p>"
-        GPU_TEMP_HTML+="<p><strong>Histórico GPU</strong><br><span style='color:#cbd5e1; font-size:14px;'>&nbsp;&nbsp;&nbsp;&nbsp;- Min: $(format_query "$MIN_GPU_ROW")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Avg: $(get_status "$AVG_GPU_TEMP")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Max: $(format_query "$MAX_GPU_ROW")<br></span></p>"
+        export GPU_TEMP_HTML="<p><strong>${L_GPU}</strong> <span style='color:#0ea5e9;'>$GPU_INFO</span></p>"
+        GPU_TEMP_HTML+="<p><strong>${L_GPU_TEMP_CURR}</strong> $GPU_CURR_HTML</p>"
+        GPU_TEMP_HTML+="<p><strong>${L_GPU_HIST}</strong><br><span style='color:#cbd5e1; font-size:14px;'>&nbsp;&nbsp;&nbsp;&nbsp;- Min: $(format_query "$MIN_GPU_ROW")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Avg: $(get_status "$AVG_GPU_TEMP")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Max: $(format_query "$MAX_GPU_ROW")<br></span></p>"
     fi
 fi
 
@@ -111,8 +111,8 @@ export CORES=$(nproc)
 export LOAD_AVG=$(cat /proc/loadavg | awk '{print $1}')
 LOAD_PERC=$(echo "$LOAD_AVG $CORES" | awk '{printf "%d", ($1/$2)*100}')
 
-MIN_LOAD_ROW=$($MYSQL_CMD "SELECT load_perc, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE load_perc IS NOT NULL ORDER BY load_perc ASC LIMIT 1;")
-MAX_LOAD_ROW=$($MYSQL_CMD "SELECT load_perc, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE load_perc IS NOT NULL ORDER BY load_perc DESC LIMIT 1;")
+MIN_LOAD_ROW=$($MYSQL_CMD "SELECT load_perc, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE load_perc IS NOT NULL ORDER BY load_perc ASC LIMIT 1;")
+MAX_LOAD_ROW=$($MYSQL_CMD "SELECT load_perc, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE load_perc IS NOT NULL ORDER BY load_perc DESC LIMIT 1;")
 AVG_LOAD=$($MYSQL_CMD "SELECT ROUND(AVG(load_perc)) FROM mod_performance_metrics WHERE load_perc IS NOT NULL;")
 if [ "$AVG_LOAD" == "NULL" ] || [ -z "$AVG_LOAD" ]; then AVG_LOAD=$LOAD_PERC; fi
 
@@ -126,7 +126,7 @@ format_load_query() {
         local date_str=$(echo "$row" | cut -d' ' -f2-)
         local color="#00d2ff"
         if [ "$val" -gt 100 ]; then color="#ff3366"; elif [ "$val" -gt 80 ]; then color="#ffcc00"; fi
-        echo "<span style='color:${color};'>${val}% de capacidad</span> <span style='color:#64748b; font-size:11px;'>(${date_str})</span>"
+        echo "<span style='color:${color};'>${val}${L_CAPACITY_PERC}</span> <span style='color:#64748b; font-size:11px;'>(${date_str})</span>"
     fi
 }
 # ------------------------------------------------------------------------------
@@ -134,14 +134,14 @@ format_load_query() {
 # ------------------------------------------------------------------------------
 get_load_status() {
     local val=$1
-    if [ "$val" -gt 100 ]; then echo "<span style='color:#ff3366;'>${L_CAUTION} CARGA ALTA (${val}% de capacidad)</span>"; elif [ "$val" -gt 80 ]; then echo "<span style='color:#ffcc00;'>${L_CAUTION} CARGA ELEVADA (${val}% de capacidad)</span>"; else echo "<span style='color:#00d2ff;'>${L_OK} (${val}% de capacidad)</span>"; fi
+    if [ "$val" -gt 100 ]; then echo "<span style='color:#ff3366;'>${L_PERF_CAUTION} ${L_STRESS} (${val}${L_CAPACITY_PERC})</span>"; elif [ "$val" -gt 80 ]; then echo "<span style='color:#ffcc00;'>${L_PERF_CAUTION} ${L_ELEV_LOAD} (${val}${L_CAPACITY_PERC})</span>"; else echo "<span style='color:#00d2ff;'>${L_PERF_OK} (${val}${L_CAPACITY_PERC})</span>"; fi
 }
 export LOAD_HTML="<p><strong>${L_LOAD}:</strong> ${LOAD_AVG} (${CORES} Cores) $(get_load_status "$LOAD_PERC")</p><p><strong>${L_LOAD_HIST}</strong><br><span style='color:#cbd5e1; font-size:14px;'>&nbsp;&nbsp;&nbsp;&nbsp;- Min: $(format_load_query "$MIN_LOAD_ROW")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Avg: $(get_load_status "${AVG_LOAD}")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Max: $(format_load_query "$MAX_LOAD_ROW")<br></span></p>"
 
 export RAM_TOTAL=$(free -m | awk '/^Mem:/{print $2}')
 export RAM_USED=$(free -m | awk '/^Mem:/{print $3}')
-MIN_RAM_ROW=$($MYSQL_CMD "SELECT ram_used, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE ram_used IS NOT NULL ORDER BY ram_used ASC LIMIT 1;")
-MAX_RAM_ROW=$($MYSQL_CMD "SELECT ram_used, DATE_FORMAT(timestamp, 'el %Y-%m-%d a las %H:%i') FROM mod_performance_metrics WHERE ram_used IS NOT NULL ORDER BY ram_used DESC LIMIT 1;")
+MIN_RAM_ROW=$($MYSQL_CMD "SELECT ram_used, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE ram_used IS NOT NULL ORDER BY ram_used ASC LIMIT 1;")
+MAX_RAM_ROW=$($MYSQL_CMD "SELECT ram_used, DATE_FORMAT(timestamp, '%Y-%m-%d ${L_AT} %H:%i') FROM mod_performance_metrics WHERE ram_used IS NOT NULL ORDER BY ram_used DESC LIMIT 1;")
 AVG_RAM_VAL=$($MYSQL_CMD "SELECT ROUND(AVG(ram_used)) FROM mod_performance_metrics WHERE ram_used IS NOT NULL;")
 if [ "$AVG_RAM_VAL" == "NULL" ] || [ -z "$AVG_RAM_VAL" ]; then AVG_RAM_VAL=$RAM_USED; fi
 
@@ -165,6 +165,6 @@ format_ram_query() {
 get_ram_status() {
     local val=$1
     local perc=$((val * 100 / RAM_TOTAL))
-    if [ "$perc" -gt 90 ]; then echo "<span style='color:#ff3366;'>${L_CAUTION} CARGA ALTA (${perc}%)</span>"; elif [ "$perc" -gt 80 ]; then echo "<span style='color:#ffcc00;'>${L_CAUTION} CARGA ELEVADA (${perc}%)</span>"; else echo "<span style='color:#00d2ff;'>${L_OK} (${perc}%)</span>"; fi
+    if [ "$perc" -gt 90 ]; then echo "<span style='color:#ff3366;'>${L_PERF_CAUTION} ${L_STRESS} (${perc}%)</span>"; elif [ "$perc" -gt 80 ]; then echo "<span style='color:#ffcc00;'>${L_PERF_CAUTION} ${L_ELEV_LOAD} (${perc}%)</span>"; else echo "<span style='color:#00d2ff;'>${L_PERF_OK} (${perc}%)</span>"; fi
 }
 export RAM_HTML="<p><strong>${L_RAM}:</strong> ${RAM_USED} MB ${L_OF} ${RAM_TOTAL} MB $(get_ram_status "$RAM_USED")</p><p><strong>${L_RAM_HIST}</strong><br><span style='color:#cbd5e1; font-size:14px;'>&nbsp;&nbsp;&nbsp;&nbsp;- Min: $(format_ram_query "$MIN_RAM_ROW")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Avg: ${AVG_RAM_VAL} MB $(get_ram_status "${AVG_RAM_VAL}")<br>&nbsp;&nbsp;&nbsp;&nbsp;- Max: $(format_ram_query "$MAX_RAM_ROW")<br></span></p>"

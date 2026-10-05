@@ -18,7 +18,7 @@ El proyecto sigue un patrón **MVC (Modelo-Vista-Controlador)** limpio para una 
 El contenedor ya no guarda los datos históricos de forma efímera. LinuxServerHealthCheck despliega su propio contenedor `mariadb` de forma automática.
 - Los historiales de temperatura, caídas de red y picos de estrés se guardan en SQL.
 - El directorio `./db_data` se mapea localmente. **Para hacer una copia de seguridad total, solo necesitas copiar la carpeta del proyecto**.
-- El script de análisis realiza limpiezas automáticas post-reporte para asegurar que la base de datos no crezca indefinidamente, conservando solo los agregados históricos permanentes.
+- El script de análisis realiza limpiezas automáticas post-informe para asegurar que la base de datos no crezca indefinidamente, conservando solo los agregados históricos permanentes.
 
 ## 🔒 Modelo de Seguridad "Submarino"
 Puede resultar llamativo que este contenedor requiera `privileged: true` y acceda a las rutas del host (`/host`). **Esto es completamente seguro e intencionado**:

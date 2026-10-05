@@ -11,7 +11,7 @@ VERBOSE=$2
 DIR="$(dirname "$0")/../modules/$MODULE"
 
 if [ ! -d "$DIR" ]; then
-    echo "Directorio no encontrado"
+    echo "Directory not found"
     exit 1
 fi
 
@@ -34,6 +34,16 @@ check_file "LICENSE"
 if [ ! -d "$DIR/locales" ]; then
     MISSING_LIST="${MISSING_LIST}locales/, "
     missing_files=$((missing_files + 1))
+fi
+
+if [ -f "$DIR/module.sh" ]; then
+    # Check for syntax errors explicitly and exit with code 2 if found
+    SYNTAX_OUTPUT=$(bash -n "$DIR/module.sh" 2>&1)
+    if [ $? -ne 0 ]; then
+        # Clean up absolute path from output to make it cleaner
+        echo "$SYNTAX_OUTPUT" | sed "s|$DIR/||g"
+        exit 2
+    fi
 fi
 
 if [ $missing_files -gt 0 ]; then
