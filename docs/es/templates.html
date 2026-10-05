@@ -64,3 +64,34 @@
 <h2>Nota Legal (Licencia GPLv3)</h2>
 <p>Puedes cambiar totalmente la cabecera, añadir tus propias imágenes, modificar los estilos CSS, cambiar los nombres y alterar toda la estructura visual para adaptarla a tu empresa. <strong>Lo único que tiene que respetarse obligatoriamente</strong>, de acuerdo con la sección 7(b) de la licencia GPLv3 (preservación de avisos legales y autoría), es que <strong>no está permitido eliminar mi autoría ni el enlace a la licencia original del pie de página (footer) de la plantilla principal (report.html)</strong>. Puedes mover el footer de sitio si quieres, pero debe ser visible para el receptor del correo.</p>
             
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) bajo la licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a><br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">Este sitio web de documentación de LSHC no usa cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Aviso Legal</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

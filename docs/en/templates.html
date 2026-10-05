@@ -64,3 +64,34 @@
 <h2>Legal Note (GPLv3 License)</h2>
 <p>You can completely change the header, add your own images, modify the CSS styles, change the names, and alter the entire visual structure to adapt it to your company. <strong>The only thing that must be strictly respected</strong>, in accordance with Section 7(b) of the GPLv3 license (preservation of legal notices and authorship), is that <strong>you are not permitted to remove my authorship or the link to the original license from the footer of the main template (report.html)</strong>. You may move the footer if you wish, but it must be visible to the email recipient.</p>
             
+            </div>
+        </div>
+        <footer class="site-footer">
+            Miguel Páramos - <a href="https://www.miguelparamos.com" target="_blank">www.miguelparamos.com</a> , Linux Server Health Check (LSHC) under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3</a> license<br><span style="font-size:11px; opacity:0.7; display:block; margin-top:4px;">This LSHC documentation website does not use cookies. &nbsp;|&nbsp; <a href="legal.html" style="color:inherit; text-decoration:underline;">Legal Notice</a></span>
+        </footer>
+    </div>
+    
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.getElementById('mobile-nav');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== menuBtn) {
+                    nav.classList.remove('open');
+                }
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
