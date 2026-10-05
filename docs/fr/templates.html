@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Accueil (Aperçu)</a>
+<a href="audience.html" >🎯 Cas d'Utilisation et Prérequis</a>
+<a href="quickstart.html" >⚡ Guide de Démarrage Rapide</a>
+<a href="architecture.html" >🧩 Architecture Technique</a>
+<a href="toggle.html" >⚙️ Activation des Modules</a>
+<a href="dependencies.html" >📦 Dépendances des Modules</a>
+<a href="development.html" >🛠️ Développement de Modules</a>
+<a href="templates.html" class="active">🎨 Modification Templates</a>
+<a href="troubleshooting.html" >🐛 Dépannage</a>
+<a href="about.html" >ℹ️ À propos (Licence)</a>
+<a href="contact.html" >✉️ Contact</a>
+<a href="legal.html" >⚖️ Mentions Légales</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Modification des Templates</div>
+                <div class="lang-switcher">
+                    <a href="../es/templates.html" >ES</a>
+<a href="../en/templates.html" >EN</a>
+<a href="../fr/templates.html" class="active">FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">\n                <h1>Modification des Templates</h1>
+<p>La vue finale du rapport envoyé est générée en joignant un <strong>modèle de base (master)</strong> et plusieurs <strong>modèles de modules (partials)</strong>. Les deux systèmes de modèles utilisent du HTML standard injecté avec des variables via le script orchestrateur Bash.</p>
+
+<h2>Structure des Modèles</h2>
+<h3>1. Modèle Principal (Master)</h3>
+<p>Situé dans <code>src/templates/report.html</code>. C'est le "squelette" de l'e-mail et il inclut les en-têtes HTML, les styles CSS et le conteneur global. Il définit une macro-variable <code>${MODULES_HTML}</code>, où tout le contenu généré par chaque module sera injecté.</p>
+
+<h3>2. Modèles de Modules (Partials)</h3>
+<p>Situés dans <code>src/modules/nom_du_module/template.html</code>. Ce sont des "blocs" qui représentent les informations d'un module particulier. Ils sont toujours structurés sous une <code>&lt;div class="module-container"&gt;</code> pour assurer l'uniformité dans le rapport final.</p>
+
+<h2>Comment Ils s'unissent</h2>
+<p>Lorsque l'orchestrateur s'exécute :</p>
+<ol>
+    <li>Il lit le <code>template.html</code> de chaque module actif.</li>
+    <li>Il remplace ses variables internes (ex. <code>${L_TITLE}</code> ou <code>${METRIC_VALUE}</code>) par des données réelles.</li>
+    <li>Il concatène tous ces blocs générés dans une grande variable en mémoire.</li>
+    <li>Il ouvre <code>src/templates/report.html</code>, cherche <code>${MODULES_HTML}</code> et y injecte toute la concaténation précédente, produisant le HTML final.</li>
+</ol>
+
+<h2>Note Légale (Licence GPLv3)</h2>
+<p>Vous pouvez modifier complètement l'en-tête, ajouter vos propres images, modifier les styles CSS, changer les noms et modifier toute la structure visuelle pour l'adapter à votre entreprise. <strong>La seule chose qui doit être obligatoirement respectée</strong>, conformément à la section 7(b) de la licence GPLv3 (préservation des mentions légales et de la paternité), est qu'<strong>il n'est pas permis de supprimer ma paternité ni le lien vers la licence originale du pied de page (footer) du modèle principal (report.html)</strong>. Vous pouvez déplacer le pied de page si vous le souhaitez, mais il doit rester visible pour le destinataire de l'e-mail.</p>
+            

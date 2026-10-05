@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | LinuxServerHealthCheck</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2>LSHC <span>Docs</span></h2>
+                <p>by Miguel Páramos</p>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav id="mobile-nav">
+            <a href="index.html" >🏠 Inicio (Overview)</a>
+<a href="audience.html" >🎯 Casos de Uso y Requisitos</a>
+<a href="quickstart.html" >⚡ Guía Rápida de Uso</a>
+<a href="architecture.html" >🧩 Arquitectura Técnica</a>
+<a href="toggle.html" >⚙️ Activación de Módulos</a>
+<a href="dependencies.html" >📦 Requisitos de los Módulos</a>
+<a href="development.html" >🛠️ Desarrollo de Módulos</a>
+<a href="templates.html" class="active">🎨 Modificación Templates</a>
+<a href="troubleshooting.html" >🐛 Resolución de Problemas</a>
+<a href="about.html" >ℹ️ Acerca de (Licencia)</a>
+<a href="contact.html" >✉️ Contacto</a>
+<a href="legal.html" >⚖️ Aviso Legal</a>
+
+        </nav>
+    </div>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <div class="breadcrumbs">Modificación de Templates</div>
+                <div class="lang-switcher">
+                    <a href="../es/templates.html" class="active">ES</a>
+<a href="../en/templates.html" >EN</a>
+<a href="../fr/templates.html" >FR</a>
+
+                </div>
+            </header>
+            <div class="content-body">\n                <h1>Modificación de Templates</h1>
+<p>La vista final del reporte enviado se genera uniendo una <strong>plantilla base (master)</strong> y múltiples <strong>plantillas de módulos (partials)</strong>. Ambos sistemas de plantillas utilizan HTML estándar inyectado con variables mediante el script orquestador Bash.</p>
+
+<h2>Estructura de las Plantillas</h2>
+<h3>1. Plantilla Principal (Master)</h3>
+<p>Se encuentra en <code>src/templates/report.html</code>. Es el "esqueleto" del correo electrónico e incluye las cabeceras HTML, estilos CSS y el contenedor global. Define una macro-variable <code>${MODULES_HTML}</code>, donde se inyectará todo el contenido generado por cada módulo.</p>
+
+<h3>2. Plantillas de Módulo (Partials)</h3>
+<p>Se encuentran en <code>src/modules/nombre_modulo/template.html</code>. Son "bloques" que representan la información de un módulo en particular. Se estructuran siempre bajo un <code>&lt;div class="module-container"&gt;</code> para asegurar la uniformidad en el informe final.</p>
+
+<h2>Cómo se unen</h2>
+<p>Cuando el orquestador se ejecuta:</p>
+<ol>
+    <li>Lee el <code>template.html</code> de cada módulo activo.</li>
+    <li>Reemplaza sus variables internas (ej. <code>${L_TITLE}</code> o <code>${METRIC_VALUE}</code>) con datos reales.</li>
+    <li>Concatena todos esos bloques generados en una gran variable de memoria.</li>
+    <li>Abre <code>src/templates/report.html</code>, busca <code>${MODULES_HTML}</code> e inyecta ahí toda la concatenación anterior, produciendo el HTML final.</li>
+</ol>
+
+<h2>Nota Legal (Licencia GPLv3)</h2>
+<p>Puedes cambiar totalmente la cabecera, añadir tus propias imágenes, modificar los estilos CSS, cambiar los nombres y alterar toda la estructura visual para adaptarla a tu empresa. <strong>Lo único que tiene que respetarse obligatoriamente</strong>, de acuerdo con la sección 7(b) de la licencia GPLv3 (preservación de avisos legales y autoría), es que <strong>no está permitido eliminar mi autoría ni el enlace a la licencia original del pie de página (footer) de la plantilla principal (report.html)</strong>. Puedes mover el footer de sitio si quieres, pero debe ser visible para el receptor del correo.</p>
+            
