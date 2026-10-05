@@ -2,6 +2,13 @@
 
 ---
 
+### 📚 Online Documentation
+- [🇪🇸 Leer la documentación en Español](https://MParamos.github.io/LinuxServerHealthCheck/es/index.html)
+- [🇬🇧 Read the English documentation](https://MParamos.github.io/LinuxServerHealthCheck/en/index.html)
+- [🇫🇷 Lire la documentation en Français](https://MParamos.github.io/LinuxServerHealthCheck/fr/index.html)
+
+---
+
 <a name="español"></a>
 # LinuxServerHealthCheck Centinela (Español)
 
