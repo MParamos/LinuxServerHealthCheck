@@ -29,7 +29,7 @@ format_query() {
     local row="$1"
     if [ -z "$row" ] || [ "$row" == "NULL" ]; then echo "N/A"; else
         local temp=$(echo "$row" | awk '{print $1}')
-        local date_str=$(echo "$row" | cut -d' ' -f2-)
+        local date_str=$(echo "$row" | awk -F'\t' '{print $2}')
         local color="#00d2ff"
         if [ "$temp" -gt 80 ]; then color="#ff3366"; elif [ "$temp" -gt 65 ]; then color="#ffcc00"; fi
         local status=$(get_status_html "$temp")
@@ -123,7 +123,7 @@ format_load_query() {
     local row="$1"
     if [ -z "$row" ] || [ "$row" == "NULL" ]; then echo "N/A"; else
         local val=$(echo "$row" | awk '{print $1}')
-        local date_str=$(echo "$row" | cut -d' ' -f2-)
+        local date_str=$(echo "$row" | awk -F'\t' '{print $2}')
         local color="#00d2ff"
         if [ "$val" -gt 100 ]; then color="#ff3366"; elif [ "$val" -gt 80 ]; then color="#ffcc00"; fi
         echo "<span style='color:${color};'>${val}${L_CAPACITY_PERC}</span> <span style='color:#64748b; font-size:11px;'>(${date_str})</span>"
@@ -152,7 +152,7 @@ format_ram_query() {
     local row="$1"
     if [ -z "$row" ] || [ "$row" == "NULL" ]; then echo "N/A"; else
         local val=$(echo "$row" | awk '{print $1}')
-        local date_str=$(echo "$row" | cut -d' ' -f2-)
+        local date_str=$(echo "$row" | awk -F'\t' '{print $2}')
         local perc=$((val * 100 / RAM_TOTAL))
         local color="#00d2ff"
         if [ "$perc" -gt 90 ]; then color="#ff3366"; elif [ "$perc" -gt 80 ]; then color="#ffcc00"; fi
