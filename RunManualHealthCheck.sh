@@ -19,7 +19,7 @@ else
     source "src/core/locales/en.sh"
 fi
 
-CONTAINER_NAME="linuxserverhealthcheck_Workbench"
+CONTAINER_NAME="linuxserverhealthcheck_${MACHINE_NAME:-MyServer}"
 
 # Verify if container is running
 if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)" != "true" ]; then

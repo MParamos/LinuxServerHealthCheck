@@ -1,7 +1,7 @@
 services:
   linuxserverhealthcheck_db:
     image: mariadb:10.11
-    container_name: linuxserverhealthcheck_db_${MACHINE_NAME:-Server}
+    container_name: linuxserverhealthcheck_db_${MACHINE_NAME:-MyServer}
     restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret123}
@@ -14,7 +14,7 @@ services:
 
   linuxserverhealthcheck:
     build: .
-    container_name: linuxserverhealthcheck_${MACHINE_NAME:-Server}
+    container_name: linuxserverhealthcheck_${MACHINE_NAME:-MyServer}
     privileged: true
     pid: "host"
     network_mode: "host"

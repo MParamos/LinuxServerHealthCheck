@@ -53,7 +53,7 @@ get_status() {
 
 # CPU
 CPU_TEMP=$(sensors | awk '/Core 0/ {print $3}' | sed 's/+//;s/°C//' | awk '{printf "%d", $1}')
-if [ -z "$CPU_TEMP" ]; then CPU_TEMP=$(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null | awk '{print $1/1000}'); fi
+if [ -z "$CPU_TEMP" ]; then CPU_TEMP=$(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null | awk '{printf "%.0f", $1/1000}'); fi
 if [ -z "$CPU_TEMP" ]; then CPU_TEMP=0; fi
 
 export CPU_TEMP_HTML="<p><strong>${L_ACTUAL_CPU}:</strong> $(get_status "$CPU_TEMP")</p>"
